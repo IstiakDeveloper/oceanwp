@@ -3608,16 +3608,24 @@ function oceanwp_preloader_styles() {
 	if ( is_admin() ) return;
 
 	$css = '
-	html.preloader-active {
+	html.preloader-active,
+	html.preloader-active body {
 		overflow: hidden !important;
 		height: 100% !important;
+		position: relative !important;
+	}
+	html.preloader-active body {
+		touch-action: none;
+		-webkit-overflow-scrolling: none;
+		overscroll-behavior: none;
 	}
 	#oceanwp-preloader {
 		position: fixed;
 		top: 0;
 		left: 0;
 		width: 100%;
-		height: 100%;
+		height: 100vh;
+		height: 100dvh;
 		background: #ffffff;
 		display: flex;
 		align-items: center;
@@ -3626,6 +3634,8 @@ function oceanwp_preloader_styles() {
 		opacity: 1;
 		visibility: visible;
 		transition: opacity 0.6s ease, visibility 0.6s ease;
+		-webkit-transform: translateZ(0);
+		transform: translateZ(0);
 	}
 	#oceanwp-preloader.loaded {
 		opacity: 0;
@@ -3634,6 +3644,7 @@ function oceanwp_preloader_styles() {
 	}
 	.preloader-inner {
 		text-align: center;
+		padding: 0 20px;
 	}
 	.preloader-logo {
 		max-width: 160px;
@@ -3673,6 +3684,18 @@ function oceanwp_preloader_styles() {
 		50% { width: 70%; margin-left: 0; }
 		100% { width: 0%; margin-left: 100%; }
 	}
+	@media (max-width: 480px) {
+		.preloader-logo {
+			max-width: 120px;
+			margin-bottom: 20px;
+		}
+		.preloader-site-name {
+			font-size: 22px;
+		}
+		.preloader-bar {
+			width: 150px;
+		}
+	}
 	';
 
 	wp_register_style( 'oceanwp-preloader', false );
@@ -3696,11 +3719,15 @@ function oceanwp_preloader_script() {
 
 	$js = '
 	(function() {
+		var touchHandler = function(e) { e.preventDefault(); };
+		document.addEventListener("touchmove", touchHandler, { passive: false });
+
 		function hidePreloader() {
 			var preloader = document.getElementById("oceanwp-preloader");
 			if (!preloader || preloader.classList.contains("loaded")) return;
 			preloader.classList.add("loaded");
 			document.documentElement.classList.remove("preloader-active");
+			document.removeEventListener("touchmove", touchHandler);
 			setTimeout(function() {
 				preloader.style.display = "none";
 			}, 600);
@@ -3712,7 +3739,6 @@ function oceanwp_preloader_script() {
 			window.addEventListener("load", hidePreloader);
 		}
 
-		// Safety fallback: max 5 seconds e preloader hide hobe
 		setTimeout(hidePreloader, 5000);
 	})();
 	';

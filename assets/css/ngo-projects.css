@@ -4,7 +4,7 @@
  */
 
 /* ==========================================================================
-   Force Full Width Layout - No Sidebar
+   Force Full Width Layout - No Sidebar (All Methods)
    ========================================================================== */
 
 /* Archive Page Full Width */
@@ -22,13 +22,22 @@
 	padding: 40px 20px;
 }
 
+/* Hide ALL possible sidebar elements - Archive */
 .post-type-archive-ngo_project #sidebar,
+.post-type-archive-ngo_project #sidebar-primary,
+.post-type-archive-ngo_project #sidebar-secondary,
+.post-type-archive-ngo_project .sidebar,
 .post-type-archive-ngo_project .widget-area,
-.post-type-archive-ngo_project aside {
+.post-type-archive-ngo_project aside,
+.post-type-archive-ngo_project .sidebar-container {
 	display: none !important;
+	visibility: hidden !important;
 	width: 0 !important;
+	height: 0 !important;
 	margin: 0 !important;
 	padding: 0 !important;
+	opacity: 0 !important;
+	overflow: hidden !important;
 }
 
 /* Single Project Page Full Width */
@@ -52,13 +61,22 @@
 	max-width: 100% !important;
 }
 
+/* Hide ALL possible sidebar elements - Single */
 .single-ngo_project #sidebar,
+.single-ngo_project #sidebar-primary,
+.single-ngo_project #sidebar-secondary,
+.single-ngo_project .sidebar,
 .single-ngo_project .widget-area,
-.single-ngo_project aside {
+.single-ngo_project aside,
+.single-ngo_project .sidebar-container {
 	display: none !important;
+	visibility: hidden !important;
 	width: 0 !important;
+	height: 0 !important;
 	margin: 0 !important;
 	padding: 0 !important;
+	opacity: 0 !important;
+	overflow: hidden !important;
 }
 
 /* Override any theme float/width on primary */
@@ -72,6 +90,32 @@
 .single-ngo_project.content-full-width #primary,
 .post-type-archive-ngo_project.content-full-width #primary {
 	width: 100% !important;
+}
+
+/* Universal sidebar block - catch ALL scenarios */
+.single-ngo_project *[class*="sidebar"],
+.single-ngo_project *[class*="widget"],
+.single-ngo_project *[id*="sidebar"],
+.post-type-archive-ngo_project *[class*="sidebar"],
+.post-type-archive-ngo_project *[class*="widget"],
+.post-type-archive-ngo_project *[id*="sidebar"] {
+	display: none !important;
+	visibility: hidden !important;
+}
+
+/* Show main content only */
+.single-ngo_project .site-main,
+.post-type-archive-ngo_project .site-main {
+	display: block !important;
+	width: 100% !important;
+}
+
+/* Clear floats properly */
+.single-ngo_project #content-wrap::after,
+.post-type-archive-ngo_project #content-wrap::after {
+	content: '';
+	display: table;
+	clear: both;
 }
 
 /* ==========================================================================
@@ -100,41 +144,230 @@
 	margin: 0;
 }
 
-/* Project Status Filter */
-.project-status-filter {
+/* Project Status Tabs - Modern Design */
+.project-status-tabs {
 	display: flex;
 	justify-content: center;
-	gap: 12px;
-	margin-bottom: 35px;
+	gap: 16px;
+	margin-bottom: 40px;
 	flex-wrap: wrap;
 }
 
-.project-status-filter .filter-btn {
-	padding: 10px 24px;
+.status-tab {
+	padding: 16px 32px;
 	background: #fff;
-	border: 2px solid #d1d5db;
-	border-radius: 6px;
+	border: 2px solid #e5e7eb;
+	border-radius: 8px;
 	cursor: pointer;
 	transition: all 0.3s ease;
-	font-size: 14px;
-	font-weight: 500;
-	color: #374151;
 	display: flex;
 	align-items: center;
-	gap: 6px;
+	gap: 10px;
+	font-size: 15px;
+	font-weight: 500;
+	color: #374151;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+	position: relative;
+	overflow: hidden;
 }
 
-.project-status-filter .filter-btn:hover {
+.status-tab::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 3px;
+	background: transparent;
+	transition: all 0.3s ease;
+}
+
+.status-tab:hover {
 	border-color: #059669;
-	color: #059669;
-	background: #f0fdf4;
+	transform: translateY(-2px);
+	box-shadow: 0 4px 12px rgba(5, 150, 105, 0.15);
 }
 
-.project-status-filter .filter-btn.active {
+.status-tab:hover::before {
+	background: #059669;
+}
+
+.status-tab.active {
 	background: linear-gradient(135deg, #059669 0%, #047857 100%);
 	border-color: #059669;
 	color: #fff;
-	box-shadow: 0 2px 8px rgba(5, 150, 105, 0.25);
+	box-shadow: 0 4px 16px rgba(5, 150, 105, 0.25);
+	transform: translateY(-2px);
+}
+
+.status-tab.active::before {
+	background: #10b981;
+}
+
+.tab-icon {
+	font-size: 20px;
+	line-height: 1;
+}
+
+.tab-label {
+	font-weight: 600;
+}
+
+.tab-count {
+	background: rgba(0, 0, 0, 0.1);
+	padding: 2px 10px;
+	border-radius: 12px;
+	font-size: 13px;
+	font-weight: 600;
+	min-width: 28px;
+	text-align: center;
+}
+
+.status-tab.active .tab-count {
+	background: rgba(255, 255, 255, 0.25);
+}
+
+/* No results message */
+.no-results-message {
+	text-align: center;
+	padding: 60px 20px;
+	background: #f9fafb;
+	border-radius: 8px;
+	border: 2px dashed #e5e7eb;
+	grid-column: 1 / -1;
+}
+
+.no-results-message p {
+	font-size: 15px;
+	color: #6b7280;
+	margin: 0;
+}
+
+/* Project Count Badge for Taxonomy Pages */
+.project-count-info {
+	margin-top: 15px;
+	display: flex;
+	justify-content: center;
+}
+
+.count-badge {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	padding: 8px 20px;
+	background: rgba(255, 255, 255, 0.15);
+	border: 1px solid rgba(255, 255, 255, 0.3);
+	border-radius: 20px;
+	font-size: 14px;
+	font-weight: 600;
+	color: #fff;
+}
+
+.count-badge::before {
+	content: '📊';
+	font-size: 18px;
+}
+
+/* Taxonomy Page Header Specific Styles */
+.taxonomy-project_status .page-header {
+	text-align: center;
+	margin-bottom: 40px;
+	padding: 30px 20px;
+	background: linear-gradient(135deg, #059669 0%, #047857 100%);
+	border-radius: 8px;
+	color: #fff;
+}
+
+.taxonomy-project_status .page-header .page-title {
+	font-size: 32px;
+	font-weight: 600;
+	margin-bottom: 10px;
+	color: #fff;
+}
+
+.taxonomy-project_status .page-header .archive-description {
+	font-size: 15px;
+	color: rgba(255, 255, 255, 0.95);
+	margin: 0 0 15px 0;
+}
+
+/* Taxonomy Navigation Links */
+.taxonomy-navigation {
+	display: flex;
+	justify-content: center;
+	gap: 16px;
+	margin-bottom: 40px;
+	flex-wrap: wrap;
+}
+
+.taxonomy-nav-link {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	padding: 14px 28px;
+	background: #fff;
+	border: 2px solid #e5e7eb;
+	border-radius: 8px;
+	text-decoration: none;
+	color: #4b5563;
+	font-weight: 600;
+	font-size: 15px;
+	transition: all 0.3s ease;
+	position: relative;
+	overflow: hidden;
+}
+
+.taxonomy-nav-link::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 3px;
+	background: transparent;
+	transition: all 0.3s ease;
+}
+
+.taxonomy-nav-link:hover {
+	border-color: #059669;
+	color: #059669;
+	transform: translateY(-2px);
+	box-shadow: 0 4px 12px rgba(5, 150, 105, 0.15);
+}
+
+.taxonomy-nav-link:hover::before {
+	background: #059669;
+}
+
+.taxonomy-nav-link.active {
+	background: linear-gradient(135deg, #059669 0%, #047857 100%);
+	border-color: #059669;
+	color: #fff;
+	box-shadow: 0 4px 16px rgba(5, 150, 105, 0.25);
+	transform: translateY(-2px);
+}
+
+.taxonomy-nav-link.active::before {
+	background: #10b981;
+}
+
+.nav-icon {
+	font-size: 20px;
+	line-height: 1;
+}
+
+.nav-count {
+	background: rgba(0, 0, 0, 0.1);
+	padding: 3px 10px;
+	border-radius: 12px;
+	font-size: 13px;
+	font-weight: 700;
+	min-width: 28px;
+	text-align: center;
+}
+
+.taxonomy-nav-link.active .nav-count {
+	background: rgba(255, 255, 255, 0.25);
 }
 
 .project-status-filter .filter-btn .count {

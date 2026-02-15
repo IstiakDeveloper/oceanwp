@@ -324,9 +324,10 @@ function oceanwp_project_full_width_layout( $layout ) {
 add_filter( 'ocean_post_layout', 'oceanwp_project_full_width_layout', 999 );
 add_filter( 'ocean_both_sidebars_style', 'oceanwp_project_full_width_layout', 999 );
 add_filter( 'ocean_content_layout', 'oceanwp_project_full_width_layout', 999 );
+add_filter( 'theme_mod_ocean_main_layout_style', 'oceanwp_project_full_width_layout', 999 );
 
 /**
- * Remove sidebar from project archive and single pages
+ * Remove sidebar from project archive and single pages (All possible filters)
  */
 function oceanwp_remove_project_sidebar( $display ) {
     if ( is_singular( 'ngo_project' ) || is_post_type_archive( 'ngo_project' ) ) {
@@ -337,6 +338,36 @@ function oceanwp_remove_project_sidebar( $display ) {
 add_filter( 'ocean_display_sidebar', 'oceanwp_remove_project_sidebar', 999 );
 add_filter( 'ocean_display_right_sidebar', 'oceanwp_remove_project_sidebar', 999 );
 add_filter( 'ocean_display_left_sidebar', 'oceanwp_remove_project_sidebar', 999 );
+add_filter( 'is_active_sidebar', 'oceanwp_remove_project_sidebar', 999 );
+
+/**
+ * Force no sidebar template
+ */
+function oceanwp_project_sidebar_template( $template ) {
+    if ( is_singular( 'ngo_project' ) || is_post_type_archive( 'ngo_project' ) ) {
+        return false;
+    }
+    return $template;
+}
+add_filter( 'sidebar_template', 'oceanwp_project_sidebar_template', 999 );
+add_filter( 'get_sidebar_template', 'oceanwp_project_sidebar_template', 999 );
+
+/**
+ * Remove sidebar actions completely for project pages
+ */
+function oceanwp_remove_project_sidebar_actions() {
+    if ( is_singular( 'ngo_project' ) || is_post_type_archive( 'ngo_project' ) ) {
+        // Remove all sidebar rendering actions
+        remove_action( 'ocean_after_primary', 'ocean_display_sidebar' );
+        remove_action( 'ocean_after_content', 'ocean_display_sidebar' );
+        remove_action( 'wp_footer', 'ocean_display_sidebar' );
+        
+        // Unregister sidebar for these pages
+        unregister_sidebar( 'sidebar' );
+        unregister_sidebar( 'sidebar-primary' );
+    }
+}
+add_action( 'wp', 'oceanwp_remove_project_sidebar_actions', 999 );
 
 /**
  * Add custom body class for full width
@@ -346,8 +377,9 @@ function oceanwp_project_body_class( $classes ) {
         $classes[] = 'content-full-width';
         $classes[] = 'no-sidebar';
         $classes[] = 'full-width-content';
+        $classes[] = 'page-without-sidebar';
         // Remove any sidebar classes
-        $classes = array_diff( $classes, array( 'has-sidebar', 'right-sidebar', 'left-sidebar' ) );
+        $classes = array_diff( $classes, array( 'has-sidebar', 'right-sidebar', 'left-sidebar', 'sidebar-active' ) );
     }
     return $classes;
 }

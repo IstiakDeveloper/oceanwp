@@ -1,9 +1,14 @@
 <?php
 /**
  * The template for displaying single NGO Project
+ * Full Width - No Sidebar
  *
  * @package OceanWP WordPress theme
  */
+
+// Force remove all sidebars for this template
+add_filter( 'ocean_display_sidebar', '__return_false', 999 );
+remove_action( 'ocean_after_primary', 'ocean_display_sidebar' );
 
 get_header(); ?>
 

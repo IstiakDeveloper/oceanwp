@@ -1,9 +1,8 @@
 <?php
 /**
- * The template for displaying NGO Projects Archive
+ * The template for displaying Project Status Taxonomy Archives
+ * Shows projects filtered by status (Ongoing or Completed)
  * Full Width - No Sidebar
- *
- * Learn more: http://codex.wordpress.org/Template_Hierarchy
  *
  * @package OceanWP WordPress theme
  */
@@ -12,7 +11,11 @@
 add_filter( 'ocean_display_sidebar', '__return_false', 999 );
 remove_action( 'ocean_after_primary', 'ocean_display_sidebar' );
 
-get_header(); ?>
+get_header(); 
+
+// Get current term (ongoing or completed)
+$current_term = get_queried_object();
+?>
 
 <div id="content-wrap" class="container clr">
 
@@ -25,39 +28,75 @@ get_header(); ?>
 			<?php do_action( 'ocean_before_content' ); ?>
 
 			<header class="page-header">
-				<h1 class="page-title"><?php _e( 'Our Development Projects', 'oceanwp' ); ?></h1>
-				<p class="archive-description"><?php _e( 'Explore our ongoing and completed development projects making a difference in communities.', 'oceanwp' ); ?></p>
+				<h1 class="page-title">
+					<?php 
+					if ( $current_term->slug === 'ongoing' ) {
+						_e( 'Ongoing Projects', 'oceanwp' );
+					} elseif ( $current_term->slug === 'completed' || $current_term->slug === 'previous' ) {
+						_e( 'Completed Projects', 'oceanwp' );
+					} else {
+						echo esc_html( $current_term->name );
+					}
+					?>
+				</h1>
+				<p class="archive-description">
+					<?php 
+					if ( $current_term->description ) {
+						echo esc_html( $current_term->description );
+					} else {
+						if ( $current_term->slug === 'ongoing' ) {
+							_e( 'Browse our currently active development projects making a difference in communities.', 'oceanwp' );
+						} elseif ( $current_term->slug === 'completed' || $current_term->slug === 'previous' ) {
+							_e( 'Explore our successfully completed development projects and their impact.', 'oceanwp' );
+						}
+					}
+					?>
+				</p>
+				<div class="project-count-info">
+					<span class="count-badge">
+						<?php 
+						printf( 
+							_n( '%s Project', '%s Projects', $current_term->count, 'oceanwp' ), 
+							number_format_i18n( $current_term->count ) 
+						); 
+						?>
+					</span>
+				</div>
 			</header>
 
-			<?php
-			// Get project statuses
+			<?php 
+			// Add navigation between status pages
 			$ongoing_term = get_term_by( 'slug', 'ongoing', 'project_status' );
 			$completed_term = get_term_by( 'slug', 'previous', 'project_status' );
 			if ( ! $completed_term ) {
 				$completed_term = get_term_by( 'slug', 'completed', 'project_status' );
 			}
 			
-			// Count projects by status
-			$ongoing_count = $ongoing_term ? $ongoing_term->count : 0;
-			$completed_count = $completed_term ? $completed_term->count : 0;
+			if ( $ongoing_term && $completed_term ) :
 			?>
-			
-			<div class="project-status-tabs">
-				<button class="status-tab active" data-status="ongoing">
-					<span class="tab-icon">🚀</span>
-					<span class="tab-label"><?php _e( 'Ongoing Projects', 'oceanwp' ); ?></span>
-					<span class="tab-count"><?php echo $ongoing_count; ?></span>
-				</button>
-				<button class="status-tab" data-status="<?php echo $completed_term ? $completed_term->slug : 'completed'; ?>">
-					<span class="tab-icon">✓</span>
-					<span class="tab-label"><?php _e( 'Completed Projects', 'oceanwp' ); ?></span>
-					<span class="tab-count"><?php echo $completed_count; ?></span>
-				</button>
-			</div>
+			<nav class="taxonomy-navigation">
+				<a href="<?php echo get_term_link( $ongoing_term ); ?>" 
+				   class="taxonomy-nav-link <?php echo ($current_term->slug === 'ongoing') ? 'active' : ''; ?>">
+					<span class="nav-icon">🚀</span>
+					<span class="nav-label"><?php _e( 'Ongoing', 'oceanwp' ); ?></span>
+					<span class="nav-count"><?php echo $ongoing_term->count; ?></span>
+				</a>
+				<a href="<?php echo get_term_link( $completed_term ); ?>" 
+				   class="taxonomy-nav-link <?php echo ($current_term->slug === 'completed' || $current_term->slug === 'previous') ? 'active' : ''; ?>">
+					<span class="nav-icon">✓</span>
+					<span class="nav-label"><?php _e( 'Completed', 'oceanwp' ); ?></span>
+					<span class="nav-count"><?php echo $completed_term->count; ?></span>
+				</a>
+				<a href="<?php echo get_post_type_archive_link( 'ngo_project' ); ?>" class="taxonomy-nav-link">
+					<span class="nav-icon">📁</span>
+					<span class="nav-label"><?php _e( 'All Projects', 'oceanwp' ); ?></span>
+				</a>
+			</nav>
+			<?php endif; ?>
 
 			<?php if ( have_posts() ) : ?>
 
-				<div class="projects-grid" id="projects-container">
+				<div class="projects-grid">
 
 					<?php
 					// Loop through projects
@@ -168,7 +207,7 @@ get_header(); ?>
 			<?php else : ?>
 
 				<div class="no-projects-found">
-					<p><?php _e( 'No projects found.', 'oceanwp' ); ?></p>
+					<p><?php _e( 'No projects found in this category.', 'oceanwp' ); ?></p>
 				</div>
 
 			<?php endif; ?>
@@ -182,47 +221,5 @@ get_header(); ?>
 	</div><!-- #primary -->
 
 </div><!-- #content-wrap -->
-
-<script>
-jQuery(document).ready(function($) {
-	// Show only ongoing projects by default on page load
-	$('.project-card').hide();
-	$('.project-status-ongoing').fadeIn(300);
-	
-	// Tab switching
-	$('.status-tab').on('click', function() {
-		var status = $(this).data('status');
-		
-		// Update active tab
-		$('.status-tab').removeClass('active');
-		$(this).addClass('active');
-		
-		// Filter projects with smooth transition
-		$('.project-card').fadeOut(200, function() {
-			$('.project-status-' + status).fadeIn(300);
-		});
-	});
-	
-	// Add empty state if no projects found
-	function checkEmptyState() {
-		setTimeout(function() {
-			var visibleCards = $('.project-card:visible').length;
-			if (visibleCards === 0) {
-				if ($('.no-results-message').length === 0) {
-					$('#projects-container').append('<div class="no-results-message"><p>No projects found in this category.</p></div>');
-				}
-			} else {
-				$('.no-results-message').remove();
-			}
-		}, 350);
-	}
-	
-	$('.status-tab').on('click', function() {
-		checkEmptyState();
-	});
-	
-	checkEmptyState();
-});
-</script>
 
 <?php get_footer(); ?>

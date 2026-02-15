@@ -19,6 +19,23 @@
 
 	<?php wp_body_open(); ?>
 
+	<!-- Preloader Start -->
+	<div id="oceanwp-preloader">
+		<div class="preloader-inner">
+			<?php
+			$custom_logo_id = get_theme_mod( 'custom_logo' );
+			if ( $custom_logo_id ) {
+				$logo_url = wp_get_attachment_image_url( $custom_logo_id, 'medium' );
+				echo '<img src="' . esc_url( $logo_url ) . '" alt="' . esc_attr( get_bloginfo( 'name' ) ) . '" class="preloader-logo">';
+			} else {
+				echo '<h2 class="preloader-site-name">' . esc_html( get_bloginfo( 'name' ) ) . '</h2>';
+			}
+			?>
+			<div class="preloader-bar"><div class="preloader-bar-inner"></div></div>
+		</div>
+	</div>
+	<!-- Preloader End -->
+
 	<?php do_action( 'ocean_before_outer_wrap' ); ?>
 
 	<div id="outer-wrap" class="site clr">

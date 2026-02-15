@@ -3600,3 +3600,99 @@ function mousumi_yt_playlist_admin_column_content($column, $post_id) {
     }
 }
 add_action('manage_youtube_playlist_posts_custom_column', 'mousumi_yt_playlist_admin_column_content', 10, 2);
+
+/**
+ * Preloader - Minimal & Professional
+ */
+function oceanwp_preloader_styles() {
+	if ( is_admin() ) return;
+
+	$css = '
+	#oceanwp-preloader {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background: #ffffff;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		z-index: 999999;
+		transition: opacity 0.5s ease, visibility 0.5s ease;
+	}
+	#oceanwp-preloader.loaded {
+		opacity: 0;
+		visibility: hidden;
+	}
+	.preloader-inner {
+		text-align: center;
+	}
+	.preloader-logo {
+		max-width: 160px;
+		height: auto;
+		margin-bottom: 25px;
+		animation: preloaderPulse 1.5s ease-in-out infinite;
+	}
+	.preloader-site-name {
+		font-size: 28px;
+		font-weight: 600;
+		color: #333;
+		margin: 0 0 25px 0;
+		letter-spacing: 2px;
+		animation: preloaderPulse 1.5s ease-in-out infinite;
+	}
+	.preloader-bar {
+		width: 200px;
+		height: 3px;
+		background: #e0e0e0;
+		border-radius: 3px;
+		overflow: hidden;
+		margin: 0 auto;
+	}
+	.preloader-bar-inner {
+		width: 0%;
+		height: 100%;
+		background: #13aff0;
+		border-radius: 3px;
+		animation: preloaderProgress 1.8s ease-in-out infinite;
+	}
+	@keyframes preloaderPulse {
+		0%, 100% { opacity: 1; }
+		50% { opacity: 0.5; }
+	}
+	@keyframes preloaderProgress {
+		0% { width: 0%; margin-left: 0; }
+		50% { width: 70%; margin-left: 0; }
+		100% { width: 0%; margin-left: 100%; }
+	}
+	';
+
+	wp_register_style( 'oceanwp-preloader', false );
+	wp_enqueue_style( 'oceanwp-preloader' );
+	wp_add_inline_style( 'oceanwp-preloader', $css );
+}
+add_action( 'wp_enqueue_scripts', 'oceanwp_preloader_styles', 1 );
+
+function oceanwp_preloader_script() {
+	if ( is_admin() ) return;
+
+	$js = '
+	window.addEventListener("load", function() {
+		var preloader = document.getElementById("oceanwp-preloader");
+		if (preloader) {
+			setTimeout(function() {
+				preloader.classList.add("loaded");
+				setTimeout(function() {
+					preloader.style.display = "none";
+				}, 500);
+			}, 300);
+		}
+	});
+	';
+
+	wp_register_script( 'oceanwp-preloader-js', false, array(), false, true );
+	wp_enqueue_script( 'oceanwp-preloader-js' );
+	wp_add_inline_script( 'oceanwp-preloader-js', $js );
+}
+add_action( 'wp_enqueue_scripts', 'oceanwp_preloader_script', 1 );

@@ -48,69 +48,67 @@ get_header(); ?>
 					<?php endif; ?>
 
 					<div class="project-header-section">
-						<div class="project-header-content">
-							
-							<?php if ( $statuses && ! is_wp_error( $statuses ) ) : ?>
-								<div class="project-status-badges">
-									<?php foreach ( $statuses as $status ) : ?>
-										<span class="status-badge status-<?php echo esc_attr( $status->slug ); ?>">
-											<?php echo esc_html( $status->name ); ?>
-										</span>
-									<?php endforeach; ?>
-								</div>
-							<?php endif; ?>
+						
+						<?php if ( $statuses && ! is_wp_error( $statuses ) ) : ?>
+							<div class="project-status-badges">
+								<?php foreach ( $statuses as $status ) : ?>
+									<span class="status-badge status-<?php echo esc_attr( $status->slug ); ?>">
+										<?php echo esc_html( $status->name ); ?>
+									</span>
+								<?php endforeach; ?>
+							</div>
+						<?php endif; ?>
 
-							<h1 class="project-main-title"><?php the_title(); ?></h1>
-							
-							<?php if ( $categories && ! is_wp_error( $categories ) ) : ?>
-								<div class="project-categories">
-									<?php foreach ( $categories as $category ) : ?>
-										<span class="project-category"><?php echo esc_html( $category->name ); ?></span>
-									<?php endforeach; ?>
-								</div>
-							<?php endif; ?>
+						<h1 class="project-main-title"><?php the_title(); ?></h1>
+						
+						<?php if ( $categories && ! is_wp_error( $categories ) ) : ?>
+							<div class="project-categories">
+								<?php foreach ( $categories as $category ) : ?>
+									<span class="project-category"><?php echo esc_html( $category->name ); ?></span>
+								<?php endforeach; ?>
+							</div>
+						<?php endif; ?>
 
-						</div>
-
-						<div class="project-key-info">
-							<h3 class="info-title"><?php _e( 'The Project at a Glance', 'oceanwp' ); ?></h3>
-							
-							<?php if ( $location ) : ?>
-								<div class="info-box">
-									<div class="info-label"><?php _e( 'Location', 'oceanwp' ); ?></div>
-									<div class="info-value"><?php echo esc_html( $location ); ?></div>
-								</div>
-							<?php endif; ?>
-							
-							<?php if ( $duration ) : ?>
-								<div class="info-box">
-									<div class="info-label"><?php _e( 'Duration', 'oceanwp' ); ?></div>
-									<div class="info-value"><?php echo esc_html( $duration ); ?></div>
-								</div>
-							<?php endif; ?>
-							
-							<?php if ( $budget ) : ?>
-								<div class="info-box">
-									<div class="info-label"><?php _e( 'Budget', 'oceanwp' ); ?></div>
-									<div class="info-value"><?php echo esc_html( $budget ); ?></div>
-								</div>
-							<?php endif; ?>
-							
-							<?php if ( $donor ) : ?>
-								<div class="info-box">
-									<div class="info-label"><?php _e( 'Funded By', 'oceanwp' ); ?></div>
-									<div class="info-value"><?php echo esc_html( $donor ); ?></div>
-								</div>
-							<?php endif; ?>
-							
-							<?php if ( $beneficiaries ) : ?>
-								<div class="info-box">
-									<div class="info-label"><?php _e( 'Beneficiaries', 'oceanwp' ); ?></div>
-									<div class="info-value"><?php echo esc_html( $beneficiaries ); ?></div>
-								</div>
-							<?php endif; ?>
-						</div>
 					</div><!-- .project-header-section -->
+
+					<div class="project-key-info">
+						<h3 class="info-title"><?php _e( 'Project Details', 'oceanwp' ); ?></h3>
+						
+						<?php if ( $location ) : ?>
+							<div class="info-box">
+								<div class="info-label"><?php _e( 'Location', 'oceanwp' ); ?></div>
+								<div class="info-value"><?php echo esc_html( $location ); ?></div>
+							</div>
+						<?php endif; ?>
+						
+						<?php if ( $duration ) : ?>
+							<div class="info-box">
+								<div class="info-label"><?php _e( 'Duration', 'oceanwp' ); ?></div>
+								<div class="info-value"><?php echo esc_html( $duration ); ?></div>
+							</div>
+						<?php endif; ?>
+						
+						<?php if ( $budget ) : ?>
+							<div class="info-box">
+								<div class="info-label"><?php _e( 'Budget', 'oceanwp' ); ?></div>
+								<div class="info-value"><?php echo esc_html( $budget ); ?></div>
+							</div>
+						<?php endif; ?>
+						
+						<?php if ( $donor ) : ?>
+							<div class="info-box">
+								<div class="info-label"><?php _e( 'Funded By', 'oceanwp' ); ?></div>
+								<div class="info-value"><?php echo esc_html( $donor ); ?></div>
+							</div>
+						<?php endif; ?>
+						
+						<?php if ( $beneficiaries ) : ?>
+							<div class="info-box">
+								<div class="info-label"><?php _e( 'Beneficiaries', 'oceanwp' ); ?></div>
+								<div class="info-value"><?php echo esc_html( $beneficiaries ); ?></div>
+							</div>
+						<?php endif; ?>
+					</div><!-- .project-key-info -->
 
 					<div class="project-content-section">
 

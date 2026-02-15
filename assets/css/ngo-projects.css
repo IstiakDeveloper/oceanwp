@@ -1,7 +1,26 @@
 /**
  * NGO Projects Custom Styles
  * Green Theme - Professional Design
+ * 
+ * Professional Enhancements:
+ * - Increased padding and spacing for better breathing room
+ * - Modern shadows with consistent depth hierarchy
+ * - Enhanced button designs with gradient backgrounds
+ * - Improved typography with better font sizes and line heights
+ * - Professional hover effects with cubic-bezier transitions
+ * - Focus states for accessibility
+ * - Responsive design optimized for all devices
+ * - Smooth animations and transitions
+ * - Consistent border-radius values (12px, 16px)
+ * - Better contrast and visual hierarchy
+ * - Professional color gradients
+ * - Enhanced card designs with better hover states
  */
+
+/* Smooth Scrolling */
+html {
+	scroll-behavior: smooth;
+}
 
 /* ==========================================================================
    Force Full Width Layout - No Sidebar (All Methods)
@@ -17,9 +36,9 @@
 }
 
 .post-type-archive-ngo_project #content-wrap {
-	max-width: 1240px;
+	max-width: 1280px;
 	margin: 0 auto;
-	padding: 40px 20px;
+	padding: 60px 30px;
 }
 
 /* Hide ALL possible sidebar elements - Archive */
@@ -50,9 +69,9 @@
 }
 
 .single-ngo_project #content-wrap {
-	max-width: 940px;
+	max-width: 1080px;
 	margin: 0 auto;
-	padding: 40px 20px;
+	padding: 60px 30px;
 }
 
 .single-ngo_project #content,
@@ -124,24 +143,46 @@
 
 .post-type-archive-ngo_project .page-header {
 	text-align: center;
-	margin-bottom: 40px;
-	padding: 30px 20px;
+	margin-bottom: 50px;
+	padding: 60px 40px;
 	background: linear-gradient(135deg, #059669 0%, #047857 100%);
-	border-radius: 8px;
+	border-radius: 16px;
 	color: #fff;
+	box-shadow: 0 10px 40px rgba(5, 150, 105, 0.25);
+	position: relative;
+	overflow: hidden;
 }
 
+.post-type-archive-ngo_project .page-header::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23ffffff" fill-opacity="0.05"%3E%3Cpath d="M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');\n	opacity: 0.4;\n	pointer-events: none;\n}
+
 .post-type-archive-ngo_project .page-header .page-title {
-	font-size: 32px;
-	font-weight: 600;
-	margin-bottom: 10px;
+	font-size: 42px;
+	font-weight: 700;
+	margin-bottom: 16px;
 	color: #fff;
+	letter-spacing: -0.5px;
+	text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+	position: relative;
+	z-index: 1;
 }
 
 .post-type-archive-ngo_project .page-header .archive-description {
-	font-size: 15px;
+	font-size: 17px;
 	color: rgba(255, 255, 255, 0.95);
 	margin: 0;
+	line-height: 1.7;
+	max-width: 800px;
+	margin-left: auto;
+	margin-right: auto;
+	position: relative;
+	z-index: 1;
 }
 
 /* Project Status Tabs - Modern Design */
@@ -154,19 +195,19 @@
 }
 
 .status-tab {
-	padding: 16px 32px;
+	padding: 18px 36px;
 	background: #fff;
 	border: 2px solid #e5e7eb;
-	border-radius: 8px;
+	border-radius: 12px;
 	cursor: pointer;
-	transition: all 0.3s ease;
+	transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 	display: flex;
 	align-items: center;
-	gap: 10px;
-	font-size: 15px;
-	font-weight: 500;
+	gap: 12px;
+	font-size: 16px;
+	font-weight: 600;
 	color: #374151;
-	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 	position: relative;
 	overflow: hidden;
 }
@@ -184,8 +225,9 @@
 
 .status-tab:hover {
 	border-color: #059669;
-	transform: translateY(-2px);
-	box-shadow: 0 4px 12px rgba(5, 150, 105, 0.15);
+	transform: translateY(-4px);
+	box-shadow: 0 8px 20px rgba(5, 150, 105, 0.2);
+	background: #f0fdf7;
 }
 
 .status-tab:hover::before {
@@ -194,19 +236,25 @@
 
 .status-tab.active {
 	background: linear-gradient(135deg, #059669 0%, #047857 100%);
-	border-color: #059669;
+	border-color: #047857;
 	color: #fff;
-	box-shadow: 0 4px 16px rgba(5, 150, 105, 0.25);
-	transform: translateY(-2px);
+	box-shadow: 0 8px 25px rgba(5, 150, 105, 0.35);
+	transform: translateY(-4px) scale(1.02);
 }
 
 .status-tab.active::before {
 	background: #10b981;
 }
 
+.status-tab:focus {
+	outline: 3px solid rgba(5, 150, 105, 0.4);
+	outline-offset: 2px;
+}
+
 .tab-icon {
-	font-size: 20px;
+	font-size: 24px;
 	line-height: 1;
+	filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
 }
 
 .tab-label {
@@ -214,13 +262,14 @@
 }
 
 .tab-count {
-	background: rgba(0, 0, 0, 0.1);
-	padding: 2px 10px;
-	border-radius: 12px;
-	font-size: 13px;
-	font-weight: 600;
-	min-width: 28px;
+	background: rgba(0, 0, 0, 0.08);
+	padding: 4px 14px;
+	border-radius: 16px;
+	font-size: 14px;
+	font-weight: 700;
+	min-width: 34px;
 	text-align: center;
+	line-height: 1.5;
 }
 
 .status-tab.active .tab-count {
@@ -253,25 +302,25 @@
 .count-badge {
 	display: inline-flex;
 	align-items: center;
-	gap: 10px;
-	padding: 10px 24px;
+	gap: 12px;
+	padding: 12px 28px;
 	background: rgba(255, 255, 255, 0.2);
 	border: 2px solid rgba(255, 255, 255, 0.4);
-	border-radius: 25px;
-	font-size: 15px;
+	border-radius: 30px;
+	font-size: 16px;
 	font-weight: 700;
 	color: #fff;
 	backdrop-filter: blur(10px);
 	-webkit-backdrop-filter: blur(10px);
-	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
 	position: relative;
 	z-index: 1;
 }
 
 .count-badge::before {
 	content: '📊';
-	font-size: 20px;
-	filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+	font-size: 22px;
+	filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.15));
 }
 
 /* Taxonomy Page Header Specific Styles */
@@ -279,12 +328,12 @@ body.taxonomy-project_status .page-header,
 body.term-ongoing .page-header,
 body.term-completed .page-header {
 	text-align: center;
-	margin-bottom: 45px;
-	padding: 50px 30px;
+	margin-bottom: 50px;
+	padding: 60px 40px;
 	background: linear-gradient(135deg, #059669 0%, #047857 100%);
-	border-radius: 12px;
+	border-radius: 16px;
 	color: #fff;
-	box-shadow: 0 10px 40px rgba(5, 150, 105, 0.2);
+	box-shadow: 0 12px 45px rgba(5, 150, 105, 0.3);
 	position: relative;
 	overflow: hidden;
 }
@@ -306,26 +355,26 @@ body.term-completed .page-header::before {
 body.taxonomy-project_status .page-header .page-title,
 body.term-ongoing .page-header .page-title,
 body.term-completed .page-header .page-title {
-	font-size: 38px;
+	font-size: 44px;
 	font-weight: 700;
-	margin-bottom: 12px;
+	margin-bottom: 16px;
 	color: #fff;
-	text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+	text-shadow: 0 2px 15px rgba(0, 0, 0, 0.15);
 	position: relative;
 	z-index: 1;
-	letter-spacing: -0.5px;
+	letter-spacing: -0.8px;
 }
 
 body.taxonomy-project_status .page-header .archive-description,
 body.term-ongoing .page-header .archive-description,
 body.term-completed .page-header .archive-description {
-	font-size: 16px;
+	font-size: 18px;
 	color: rgba(255, 255, 255, 0.95);
-	margin: 0 0 20px 0;
+	margin: 0 0 24px 0;
 	position: relative;
 	z-index: 1;
-	line-height: 1.6;
-	max-width: 700px;
+	line-height: 1.7;
+	max-width: 800px;
 	margin-left: auto;
 	margin-right: auto;
 }
@@ -342,19 +391,19 @@ body.term-completed .page-header .archive-description {
 .taxonomy-nav-link {
 	display: flex;
 	align-items: center;
-	gap: 12px;
-	padding: 16px 32px;
+	gap: 14px;
+	padding: 18px 36px;
 	background: #fff;
 	border: 2px solid #e5e7eb;
-	border-radius: 10px;
+	border-radius: 12px;
 	text-decoration: none;
 	color: #4b5563;
 	font-weight: 600;
-	font-size: 15px;
+	font-size: 16px;
 	transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 	position: relative;
 	overflow: hidden;
-	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
 }
 
 .taxonomy-nav-link::before {
@@ -371,8 +420,8 @@ body.term-completed .page-header .archive-description {
 .taxonomy-nav-link:hover {
 	border-color: #059669;
 	color: #059669;
-	transform: translateY(-3px);
-	box-shadow: 0 8px 20px rgba(5, 150, 105, 0.2);
+	transform: translateY(-4px);
+	box-shadow: 0 10px 25px rgba(5, 150, 105, 0.25);
 	background: #f0fdf7;
 }
 
@@ -382,10 +431,10 @@ body.term-completed .page-header .archive-description {
 
 .taxonomy-nav-link.active {
 	background: linear-gradient(135deg, #059669 0%, #047857 100%);
-	border-color: #059669;
+	border-color: #047857;
 	color: #fff;
-	box-shadow: 0 8px 25px rgba(5, 150, 105, 0.35);
-	transform: translateY(-3px) scale(1.02);
+	box-shadow: 0 10px 30px rgba(5, 150, 105, 0.4);
+	transform: translateY(-4px) scale(1.03);
 }
 
 .taxonomy-nav-link.active::before {
@@ -411,6 +460,11 @@ body.term-completed .page-header .archive-description {
 
 .taxonomy-nav-link.active .nav-count {
 	background: rgba(255, 255, 255, 0.25);
+}
+
+.taxonomy-nav-link:focus {
+	outline: 3px solid rgba(5, 150, 105, 0.4);
+	outline-offset: 2px;
 }
 
 /* Additional Professional Styling for Taxonomy Pages */
@@ -519,8 +573,8 @@ body.term-completed .no-projects-found p {
 .projects-grid {
 	display: grid;
 	grid-template-columns: repeat(3, 1fr);
-	gap: 24px;
-	margin-bottom: 40px;
+	gap: 32px;
+	margin-bottom: 50px;
 }
 
 @media (max-width: 991px) {
@@ -539,17 +593,17 @@ body.term-completed .no-projects-found p {
 /* Project Card */
 .project-card {
 	background: #fff;
-	border-radius: 8px;
+	border-radius: 12px;
 	overflow: hidden;
-	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 	border: 1px solid #e5e7eb;
-	transition: all 0.3s ease;
+	transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 	height: 100%;
 }
 
 .project-card:hover {
-	transform: translateY(-3px);
-	box-shadow: 0 4px 12px rgba(5, 150, 105, 0.15);
+	transform: translateY(-6px);
+	box-shadow: 0 12px 30px rgba(5, 150, 105, 0.2);
 	border-color: #059669;
 }
 
@@ -563,18 +617,20 @@ body.term-completed .no-projects-found p {
 .project-thumbnail {
 	position: relative;
 	overflow: hidden;
-	height: 220px;
+	height: 240px;
+	background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
 }
 
 .project-thumbnail img {
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
-	transition: transform 0.3s ease;
+	transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), filter 0.4s ease;
 }
 
 .project-card:hover .project-thumbnail img {
-	transform: scale(1.03);
+	transform: scale(1.08);
+	filter: brightness(1.05);
 }
 
 .project-thumbnail a {
@@ -584,115 +640,141 @@ body.term-completed .no-projects-found p {
 
 .project-status-badge {
 	position: absolute;
-	top: 15px;
-	right: 15px;
+	top: 16px;
+	right: 16px;
 	z-index: 2;
 }
 
 .status-badge {
 	display: inline-block;
-	padding: 4px 12px;
-	border-radius: 4px;
-	font-size: 11px;
-	font-weight: 600;
+	padding: 6px 16px;
+	border-radius: 20px;
+	font-size: 12px;
+	font-weight: 700;
 	text-transform: uppercase;
-	letter-spacing: 0.5px;
+	letter-spacing: 0.8px;
+	backdrop-filter: blur(10px);
+	-webkit-backdrop-filter: blur(10px);
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 .status-badge.status-ongoing {
-	background: #059669;
+	background: linear-gradient(135deg, #059669 0%, #10b981 100%);
 	color: #fff;
 }
 
 .status-badge.status-previous,
 .status-badge.status-completed {
-	background: #6b7280;
+	background: linear-gradient(135deg, #6b7280 0%, #9ca3af 100%);
 	color: #fff;
 }
 
 /* Project Content */
 .project-content {
-	padding: 20px;
+	padding: 28px;
 	flex: 1;
 	display: flex;
 	flex-direction: column;
 }
 
 .project-title {
-	margin: 0 0 12px 0;
-	font-size: 18px;
-	font-weight: 600;
+	margin: 0 0 16px 0;
+	font-size: 20px;
+	font-weight: 700;
 	line-height: 1.4;
+	letter-spacing: -0.3px;
 }
 
 .project-title a {
 	color: #111827;
 	text-decoration: none;
 	transition: color 0.3s ease;
+	position: relative;
+	display: inline-block;
 }
 
 .project-title a:hover {
 	color: #059669;
 }
 
+.project-title a:focus {
+	outline: 2px solid rgba(5, 150, 105, 0.4);
+	outline-offset: 2px;
+	border-radius: 2px;
+}
+
 /* Project Meta Info */
 .project-meta-info {
-	margin-bottom: 12px;
+	margin-bottom: 16px;
 	display: flex;
 	flex-direction: column;
-	gap: 8px;
+	gap: 10px;
 }
 
 .project-meta-item {
 	display: flex;
 	align-items: center;
-	gap: 7px;
-	font-size: 13px;
+	gap: 10px;
+	font-size: 14px;
 	color: #6b7280;
+	font-weight: 500;
 }
 
 .project-meta-item i {
-	width: 14px;
+	width: 16px;
 	color: #059669;
+	font-size: 16px;
 }
 
 /* Project Excerpt */
 .project-excerpt {
 	flex: 1;
 	color: #6b7280;
-	font-size: 14px;
-	line-height: 1.6;
-	margin-bottom: 16px;
+	font-size: 15px;
+	line-height: 1.7;
+	margin-bottom: 20px;
 }
 
 /* Project Footer */
 .project-footer {
 	margin-top: auto;
-	padding-top: 12px;
-	border-top: 1px solid #e5e7eb;
+	padding-top: 16px;
+	border-top: 2px solid #f3f4f6;
 }
 
 .project-read-more {
 	display: inline-flex;
 	align-items: center;
-	gap: 6px;
-	padding: 8px 18px;
-	background: #059669;
+	gap: 8px;
+	padding: 12px 24px;
+	background: linear-gradient(135deg, #059669 0%, #047857 100%);
 	color: #fff;
 	text-decoration: none;
-	border-radius: 6px;
-	font-weight: 500;
-	font-size: 13px;
-	transition: all 0.3s ease;
+	border-radius: 8px;
+	font-weight: 600;
+	font-size: 14px;
+	transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+	box-shadow: 0 2px 8px rgba(5, 150, 105, 0.2);
 }
 
 .project-read-more:hover {
-	background: #047857;
-	transform: translateX(3px);
+	background: linear-gradient(135deg, #047857 0%, #065f46 100%);
+	transform: translateX(4px);
+	box-shadow: 0 4px 12px rgba(5, 150, 105, 0.3);
 }
 
 .project-read-more i {
-	font-size: 11px;
+	font-size: 14px;
+	transition: transform 0.3s ease;
+}
+
+.project-read-more:hover i {
+	transform: translateX(2px);
+}
+
+.project-read-more:focus {
+	outline: 3px solid rgba(5, 150, 105, 0.4);
+	outline-offset: 3px;
 }
 
 /* No Projects Found */
@@ -1022,53 +1104,102 @@ body.term-completed .no-projects-found p {
 
 /* Responsive Styles */
 @media (max-width: 767px) {
+	/* Content Wrap - Mobile */
+	.post-type-archive-ngo_project #content-wrap,
+	.single-ngo_project #content-wrap {
+		padding: 40px 20px;
+	}
+	
+	/* Archive Page Header - Mobile */
+	.post-type-archive-ngo_project .page-header {
+		padding: 40px 24px;
+		margin-bottom: 35px;
+		border-radius: 12px;
+	}
+	
+	.post-type-archive-ngo_project .page-header .page-title {
+		font-size: 32px;
+	}
+	
+	.post-type-archive-ngo_project .page-header .archive-description {
+		font-size: 15px;
+	}
+	
 	/* Taxonomy Page Header - Mobile */
 	body.taxonomy-project_status .page-header,
 	body.term-ongoing .page-header,
 	body.term-completed .page-header {
-		padding: 35px 20px;
-		margin-bottom: 30px;
-		border-radius: 8px;
+		padding: 40px 24px;
+		margin-bottom: 35px;
+		border-radius: 12px;
 	}
 	
 	body.taxonomy-project_status .page-header .page-title,
 	body.term-ongoing .page-header .page-title,
 	body.term-completed .page-header .page-title {
-		font-size: 28px;
+		font-size: 32px;
 	}
 	
 	body.taxonomy-project_status .page-header .archive-description,
 	body.term-ongoing .page-header .archive-description,
 	body.term-completed .page-header .archive-description {
-		font-size: 14px;
+		font-size: 15px;
 	}
 	
 	.count-badge {
-		padding: 8px 18px;
+		padding: 10px 20px;
 		font-size: 14px;
+		gap: 10px;
+	}
+	
+	.count-badge::before {
+		font-size: 18px;
+	}
+	
+	/* Status Tabs - Mobile */
+	.project-status-tabs {
+		gap: 12px;
+		margin-bottom: 35px;
+	}
+	
+	.status-tab {
+		padding: 14px 24px;
+		font-size: 14px;
+		gap: 10px;
+		border-radius: 10px;
+	}
+	
+	.tab-icon {
+		font-size: 20px;
+	}
+	
+	.tab-count {
+		padding: 3px 12px;
+		font-size: 13px;
+		min-width: 30px;
 	}
 	
 	/* Taxonomy Navigation - Mobile */
 	.taxonomy-navigation {
-		gap: 10px;
-		margin-bottom: 30px;
+		gap: 12px;
+		margin-bottom: 35px;
 	}
 	
 	.taxonomy-nav-link {
-		padding: 12px 20px;
+		padding: 14px 24px;
 		font-size: 14px;
-		gap: 8px;
-		border-radius: 8px;
+		gap: 10px;
+		border-radius: 10px;
 	}
 	
 	.nav-icon {
-		font-size: 18px;
+		font-size: 20px;
 	}
 	
 	.nav-count {
-		padding: 3px 10px;
-		font-size: 12px;
-		min-width: 28px;
+		padding: 3px 12px;
+		font-size: 13px;
+		min-width: 30px;
 	}
 	
 	.nav-label {
@@ -1080,22 +1211,63 @@ body.term-completed .no-projects-found p {
 		transform: translateY(-2px) scale(1.0);
 	}
 	
-	/* Project Status Filter - Mobile */
-	.project-status-filter {
-		gap: 8px;
+	/* Projects Grid - Mobile */
+	.projects-grid {
+		gap: 24px;
+		margin-bottom: 40px;
 	}
 	
-	.project-status-filter .filter-btn {
-		padding: 8px 16px;
-		font-size: 13px;
+	/* Project Cards - Mobile */
+	.project-thumbnail {
+		height: 220px;
 	}
 	
 	.project-content {
-		padding: 16px;
+		padding: 20px;
 	}
 	
 	.project-title {
-		font-size: 17px;
+		font-size: 18px;
+		margin-bottom: 14px;
+	}
+	
+	.project-meta-info {
+		margin-bottom: 14px;
+		gap: 8px;
+	}
+	
+	.project-meta-item {
+		font-size: 13px;
+		gap: 8px;
+	}
+	
+	.project-meta-item i {
+		font-size: 14px;
+	}
+	
+	.project-excerpt {
+		font-size: 14px;
+		margin-bottom: 16px;
+	}
+	
+	.project-footer {
+		padding-top: 14px;
+	}
+	
+	.project-read-more {
+		padding: 10px 20px;
+		font-size: 13px;
+		gap: 6px;
+	}
+	
+	/* Project Status Filter - Mobile */
+	.project-status-filter {
+		gap: 10px;
+	}
+	
+	.project-status-filter .filter-btn {
+		padding: 10px 18px;
+		font-size: 13px;
 	}
 	
 	.project-content-section h2 {
@@ -1103,7 +1275,7 @@ body.term-completed .no-projects-found p {
 	}
 	
 	.project-key-info {
-		padding: 16px;
+		padding: 20px;
 	}
 	
 	.info-box {
@@ -1118,14 +1290,80 @@ body.term-completed .no-projects-found p {
 }
 
 @media (min-width: 768px) and (max-width: 1024px) {
+	/* Content Wrap - Tablet */
+	.post-type-archive-ngo_project #content-wrap {
+		padding: 50px 25px;
+	}
+	
+	.single-ngo_project #content-wrap {
+		padding: 50px 25px;
+	}
+	
+	/* Archive Page Header - Tablet */
+	.post-type-archive-ngo_project .page-header {
+		padding: 50px 35px;
+		margin-bottom: 45px;
+	}
+	
+	.post-type-archive-ngo_project .page-header .page-title {
+		font-size: 38px;
+	}
+	
+	.post-type-archive-ngo_project .page-header .archive-description {
+		font-size: 16px;
+	}
+	
 	/* Taxonomy Pages - Tablet */
+	body.taxonomy-project_status .page-header,
+	body.term-ongoing .page-header,
+	body.term-completed .page-header {
+		padding: 50px 35px;
+		margin-bottom: 45px;
+	}
+	
 	body.taxonomy-project_status .page-header .page-title,
 	body.term-ongoing .page-header .page-title,
 	body.term-completed .page-header .page-title {
-		font-size: 34px;
+		font-size: 40px;
 	}
 	
+	body.taxonomy-project_status .page-header .archive-description,
+	body.term-ongoing .page-header .archive-description,
+	body.term-completed .page-header .archive-description {
+		font-size: 17px;
+	}
+	
+	.count-badge {
+		padding: 11px 26px;
+		font-size: 15px;
+	}
+	
+	/* Status Tabs - Tablet */
+	.status-tab {
+		padding: 16px 30px;
+		font-size: 15px;
+	}
+	
+	/* Taxonomy Navigation - Tablet */
 	.taxonomy-nav-link {
-		padding: 14px 26px;
+		padding: 16px 30px;
+		font-size: 15px;
+	}
+	
+	/* Projects Grid - Tablet */
+	.projects-grid {
+		gap: 28px;
+	}
+	
+	.project-card {
+		border-radius: 10px;
+	}
+	
+	.project-content {
+		padding: 24px;
+	}
+	
+	.project-title {
+		font-size: 19px;
 	}
 }

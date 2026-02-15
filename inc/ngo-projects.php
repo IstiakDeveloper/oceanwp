@@ -311,3 +311,26 @@ function oceanwp_enqueue_projects_assets() {
     wp_enqueue_script( 'jquery' );
 }
 add_action( 'wp_enqueue_scripts', 'oceanwp_enqueue_projects_assets' );
+
+/**
+ * Force full-width layout for single project pages
+ */
+function oceanwp_project_full_width_layout( $layout ) {
+    if ( is_singular( 'ngo_project' ) ) {
+        return 'full-width';
+    }
+    return $layout;
+}
+add_filter( 'ocean_post_layout', 'oceanwp_project_full_width_layout' );
+add_filter( 'ocean_both_sidebars_style', 'oceanwp_project_full_width_layout' );
+
+/**
+ * Remove sidebar from project archive and single pages
+ */
+function oceanwp_remove_project_sidebar( $display ) {
+    if ( is_singular( 'ngo_project' ) || is_post_type_archive( 'ngo_project' ) ) {
+        return false;
+    }
+    return $display;
+}
+add_filter( 'ocean_display_sidebar', 'oceanwp_remove_project_sidebar' );

@@ -4,6 +4,34 @@
  */
 
 /* ==========================================================================
+   Force Full Width Layout - No Sidebar
+   ========================================================================== */
+
+.single-ngo_project #primary,
+.post-type-archive-ngo_project #primary {
+	width: 100%;
+	margin: 0 auto;
+	float: none;
+}
+
+.single-ngo_project #content-wrap,
+.post-type-archive-ngo_project #content-wrap {
+	padding-left: 0;
+	padding-right: 0;
+}
+
+.post-type-archive-ngo_project .site-content {
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 0 20px;
+}
+
+.single-ngo_project #sidebar,
+.post-type-archive-ngo_project #sidebar {
+	display: none !important;
+}
+
+/* ==========================================================================
    Project Archive Page Styles
    ========================================================================== */
 
@@ -268,9 +296,14 @@
    Single Project Page Styles
    ========================================================================== */
 
+.single-ngo_project #content,
 .single-ngo_project .site-content {
 	max-width: 900px;
 	margin: 0 auto;
+}
+
+.single-ngo_project article {
+	max-width: 100%;
 }
 
 /* Project Hero Image */

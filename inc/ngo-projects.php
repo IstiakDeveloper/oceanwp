@@ -283,15 +283,17 @@ function oceanwp_save_project_details_meta( $post_id ) {
 add_action( 'save_post_ngo_project', 'oceanwp_save_project_details_meta' );
 
 /**
- * Flush rewrite rules on theme activation
+ * Flush rewrite rules on first load (auto-removes after execution)
  */
 function oceanwp_projects_rewrite_flush() {
-    oceanwp_register_projects_post_type();
-    oceanwp_register_project_status_taxonomy();
-    oceanwp_register_project_category_taxonomy();
-    flush_rewrite_rules();
+    $flushed = get_option( 'oceanwp_projects_permalinks_flushed' );
+    
+    if ( ! $flushed ) {
+        flush_rewrite_rules();
+        update_option( 'oceanwp_projects_permalinks_flushed', true );
+    }
 }
-register_activation_hook( __FILE__, 'oceanwp_projects_rewrite_flush' );
+add_action( 'init', 'oceanwp_projects_rewrite_flush', 999 );
 
 /**
  * Enqueue Projects Styles and Scripts

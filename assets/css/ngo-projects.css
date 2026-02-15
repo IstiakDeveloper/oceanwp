@@ -253,42 +253,81 @@
 .count-badge {
 	display: inline-flex;
 	align-items: center;
-	gap: 8px;
-	padding: 8px 20px;
-	background: rgba(255, 255, 255, 0.15);
-	border: 1px solid rgba(255, 255, 255, 0.3);
-	border-radius: 20px;
-	font-size: 14px;
-	font-weight: 600;
+	gap: 10px;
+	padding: 10px 24px;
+	background: rgba(255, 255, 255, 0.2);
+	border: 2px solid rgba(255, 255, 255, 0.4);
+	border-radius: 25px;
+	font-size: 15px;
+	font-weight: 700;
 	color: #fff;
+	backdrop-filter: blur(10px);
+	-webkit-backdrop-filter: blur(10px);
+	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+	position: relative;
+	z-index: 1;
 }
 
 .count-badge::before {
 	content: '📊';
-	font-size: 18px;
+	font-size: 20px;
+	filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
 }
 
 /* Taxonomy Page Header Specific Styles */
-.taxonomy-project_status .page-header {
+body.taxonomy-project_status .page-header,
+body.term-ongoing .page-header,
+body.term-completed .page-header {
 	text-align: center;
-	margin-bottom: 40px;
-	padding: 30px 20px;
+	margin-bottom: 45px;
+	padding: 50px 30px;
 	background: linear-gradient(135deg, #059669 0%, #047857 100%);
-	border-radius: 8px;
+	border-radius: 12px;
 	color: #fff;
+	box-shadow: 0 10px 40px rgba(5, 150, 105, 0.2);
+	position: relative;
+	overflow: hidden;
 }
 
-.taxonomy-project_status .page-header .page-title {
-	font-size: 32px;
-	font-weight: 600;
-	margin-bottom: 10px;
-	color: #fff;
+body.taxonomy-project_status .page-header::before,
+body.term-ongoing .page-header::before,
+body.term-completed .page-header::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23ffffff" fill-opacity="0.05"%3E%3Cpath d="M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');
+	opacity: 0.4;
+	pointer-events: none;
 }
 
-.taxonomy-project_status .page-header .archive-description {
-	font-size: 15px;
+body.taxonomy-project_status .page-header .page-title,
+body.term-ongoing .page-header .page-title,
+body.term-completed .page-header .page-title {
+	font-size: 38px;
+	font-weight: 700;
+	margin-bottom: 12px;
+	color: #fff;
+	text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+	position: relative;
+	z-index: 1;
+	letter-spacing: -0.5px;
+}
+
+body.taxonomy-project_status .page-header .archive-description,
+body.term-ongoing .page-header .archive-description,
+body.term-completed .page-header .archive-description {
+	font-size: 16px;
 	color: rgba(255, 255, 255, 0.95);
-	margin: 0 0 15px 0;
+	margin: 0 0 20px 0;
+	position: relative;
+	z-index: 1;
+	line-height: 1.6;
+	max-width: 700px;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 /* Taxonomy Navigation Links */
@@ -303,18 +342,19 @@
 .taxonomy-nav-link {
 	display: flex;
 	align-items: center;
-	gap: 10px;
-	padding: 14px 28px;
+	gap: 12px;
+	padding: 16px 32px;
 	background: #fff;
 	border: 2px solid #e5e7eb;
-	border-radius: 8px;
+	border-radius: 10px;
 	text-decoration: none;
 	color: #4b5563;
 	font-weight: 600;
 	font-size: 15px;
-	transition: all 0.3s ease;
+	transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 	position: relative;
 	overflow: hidden;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .taxonomy-nav-link::before {
@@ -331,8 +371,9 @@
 .taxonomy-nav-link:hover {
 	border-color: #059669;
 	color: #059669;
-	transform: translateY(-2px);
-	box-shadow: 0 4px 12px rgba(5, 150, 105, 0.15);
+	transform: translateY(-3px);
+	box-shadow: 0 8px 20px rgba(5, 150, 105, 0.2);
+	background: #f0fdf7;
 }
 
 .taxonomy-nav-link:hover::before {
@@ -343,8 +384,8 @@
 	background: linear-gradient(135deg, #059669 0%, #047857 100%);
 	border-color: #059669;
 	color: #fff;
-	box-shadow: 0 4px 16px rgba(5, 150, 105, 0.25);
-	transform: translateY(-2px);
+	box-shadow: 0 8px 25px rgba(5, 150, 105, 0.35);
+	transform: translateY(-3px) scale(1.02);
 }
 
 .taxonomy-nav-link.active::before {
@@ -352,22 +393,115 @@
 }
 
 .nav-icon {
-	font-size: 20px;
+	font-size: 22px;
 	line-height: 1;
+	filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
 }
 
 .nav-count {
-	background: rgba(0, 0, 0, 0.1);
-	padding: 3px 10px;
-	border-radius: 12px;
+	background: rgba(0, 0, 0, 0.08);
+	padding: 4px 12px;
+	border-radius: 15px;
 	font-size: 13px;
 	font-weight: 700;
-	min-width: 28px;
+	min-width: 32px;
 	text-align: center;
+	line-height: 1.4;
 }
 
 .taxonomy-nav-link.active .nav-count {
 	background: rgba(255, 255, 255, 0.25);
+}
+
+/* Additional Professional Styling for Taxonomy Pages */
+body.taxonomy-project_status #content-wrap,
+body.term-ongoing #content-wrap,
+body.term-completed #content-wrap {
+	padding-top: 30px;
+	padding-bottom: 50px;
+}
+
+body.taxonomy-project_status .projects-grid,
+body.term-ongoing .projects-grid,
+body.term-completed .projects-grid {
+	animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+	from {
+		opacity: 0;
+		transform: translateY(20px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+body.taxonomy-project_status .project-card,
+body.term-ongoing .project-card,
+body.term-completed .project-card {
+	animation: projectFadeIn 0.5s ease-out backwards;
+}
+
+body.taxonomy-project_status .project-card:nth-child(1),
+body.term-ongoing .project-card:nth-child(1),
+body.term-completed .project-card:nth-child(1) {
+	animation-delay: 0.1s;
+}
+
+body.taxonomy-project_status .project-card:nth-child(2),
+body.term-ongoing .project-card:nth-child(2),
+body.term-completed .project-card:nth-child(2) {
+	animation-delay: 0.2s;
+}
+
+body.taxonomy-project_status .project-card:nth-child(3),
+body.term-ongoing .project-card:nth-child(3),
+body.term-completed .project-card:nth-child(3) {
+	animation-delay: 0.3s;
+}
+
+@keyframes projectFadeIn {
+	from {
+		opacity: 0;
+		transform: translateY(30px) scale(0.95);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	}
+}
+
+/* Enhanced No Projects Message for Taxonomy Pages */
+body.taxonomy-project_status .no-projects-found,
+body.term-ongoing .no-projects-found,
+body.term-completed .no-projects-found {
+	text-align: center;
+	padding: 80px 30px;
+	background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+	border-radius: 12px;
+	border: 2px dashed #d1d5db;
+	margin: 40px 0;
+}
+
+body.taxonomy-project_status .no-projects-found::before,
+body.term-ongoing .no-projects-found::before,
+body.term-completed .no-projects-found::before {
+	content: '📦';
+	display: block;
+	font-size: 64px;
+	margin-bottom: 20px;
+	opacity: 0.6;
+}
+
+body.taxonomy-project_status .no-projects-found p,
+body.term-ongoing .no-projects-found p,
+body.term-completed .no-projects-found p {
+	font-size: 16px;
+	color: #6b7280;
+	font-weight: 500;
+	margin: 0;
 }
 
 .project-status-filter .filter-btn .count {
@@ -888,6 +1022,65 @@
 
 /* Responsive Styles */
 @media (max-width: 767px) {
+	/* Taxonomy Page Header - Mobile */
+	body.taxonomy-project_status .page-header,
+	body.term-ongoing .page-header,
+	body.term-completed .page-header {
+		padding: 35px 20px;
+		margin-bottom: 30px;
+		border-radius: 8px;
+	}
+	
+	body.taxonomy-project_status .page-header .page-title,
+	body.term-ongoing .page-header .page-title,
+	body.term-completed .page-header .page-title {
+		font-size: 28px;
+	}
+	
+	body.taxonomy-project_status .page-header .archive-description,
+	body.term-ongoing .page-header .archive-description,
+	body.term-completed .page-header .archive-description {
+		font-size: 14px;
+	}
+	
+	.count-badge {
+		padding: 8px 18px;
+		font-size: 14px;
+	}
+	
+	/* Taxonomy Navigation - Mobile */
+	.taxonomy-navigation {
+		gap: 10px;
+		margin-bottom: 30px;
+	}
+	
+	.taxonomy-nav-link {
+		padding: 12px 20px;
+		font-size: 14px;
+		gap: 8px;
+		border-radius: 8px;
+	}
+	
+	.nav-icon {
+		font-size: 18px;
+	}
+	
+	.nav-count {
+		padding: 3px 10px;
+		font-size: 12px;
+		min-width: 28px;
+	}
+	
+	.nav-label {
+		display: none;
+	}
+	
+	.taxonomy-nav-link:hover,
+	.taxonomy-nav-link.active {
+		transform: translateY(-2px) scale(1.0);
+	}
+	
+	/* Project Status Filter - Mobile */
 	.project-status-filter {
 		gap: 8px;
 	}
@@ -921,5 +1114,18 @@
 	.nav-previous,
 	.nav-next {
 		text-align: center;
+	}
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+	/* Taxonomy Pages - Tablet */
+	body.taxonomy-project_status .page-header .page-title,
+	body.term-ongoing .page-header .page-title,
+	body.term-completed .page-header .page-title {
+		font-size: 34px;
+	}
+	
+	.taxonomy-nav-link {
+		padding: 14px 26px;
 	}
 }

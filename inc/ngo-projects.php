@@ -316,7 +316,7 @@ add_action( 'wp_enqueue_scripts', 'oceanwp_enqueue_projects_assets' );
  * Force full-width layout for single project pages
  */
 function oceanwp_project_full_width_layout( $layout ) {
-    if ( is_singular( 'ngo_project' ) || is_post_type_archive( 'ngo_project' ) ) {
+    if ( is_singular( 'ngo_project' ) || is_post_type_archive( 'ngo_project' ) || is_tax( 'project_status' ) || is_tax( 'project_category' ) ) {
         return 'full-width';
     }
     return $layout;
@@ -330,7 +330,7 @@ add_filter( 'theme_mod_ocean_main_layout_style', 'oceanwp_project_full_width_lay
  * Remove sidebar from project archive and single pages (All possible filters)
  */
 function oceanwp_remove_project_sidebar( $display ) {
-    if ( is_singular( 'ngo_project' ) || is_post_type_archive( 'ngo_project' ) ) {
+    if ( is_singular( 'ngo_project' ) || is_post_type_archive( 'ngo_project' ) || is_tax( 'project_status' ) || is_tax( 'project_category' ) ) {
         return false;
     }
     return $display;
@@ -344,7 +344,7 @@ add_filter( 'is_active_sidebar', 'oceanwp_remove_project_sidebar', 999 );
  * Force no sidebar template
  */
 function oceanwp_project_sidebar_template( $template ) {
-    if ( is_singular( 'ngo_project' ) || is_post_type_archive( 'ngo_project' ) ) {
+    if ( is_singular( 'ngo_project' ) || is_post_type_archive( 'ngo_project' ) || is_tax( 'project_status' ) || is_tax( 'project_category' ) ) {
         return false;
     }
     return $template;
@@ -356,7 +356,7 @@ add_filter( 'get_sidebar_template', 'oceanwp_project_sidebar_template', 999 );
  * Remove sidebar actions completely for project pages
  */
 function oceanwp_remove_project_sidebar_actions() {
-    if ( is_singular( 'ngo_project' ) || is_post_type_archive( 'ngo_project' ) ) {
+    if ( is_singular( 'ngo_project' ) || is_post_type_archive( 'ngo_project' ) || is_tax( 'project_status' ) || is_tax( 'project_category' ) ) {
         // Remove all sidebar rendering actions
         remove_action( 'ocean_after_primary', 'ocean_display_sidebar' );
         remove_action( 'ocean_after_content', 'ocean_display_sidebar' );
@@ -373,7 +373,7 @@ add_action( 'wp', 'oceanwp_remove_project_sidebar_actions', 999 );
  * Add custom body class for full width
  */
 function oceanwp_project_body_class( $classes ) {
-    if ( is_singular( 'ngo_project' ) || is_post_type_archive( 'ngo_project' ) ) {
+    if ( is_singular( 'ngo_project' ) || is_post_type_archive( 'ngo_project' ) || is_tax( 'project_status' ) || is_tax( 'project_category' ) ) {
         $classes[] = 'content-full-width';
         $classes[] = 'no-sidebar';
         $classes[] = 'full-width-content';
@@ -389,7 +389,7 @@ add_filter( 'body_class', 'oceanwp_project_body_class', 999 );
  * Force full width for primary content
  */
 function oceanwp_project_content_width() {
-    if ( is_singular( 'ngo_project' ) || is_post_type_archive( 'ngo_project' ) ) {
+    if ( is_singular( 'ngo_project' ) || is_post_type_archive( 'ngo_project' ) || is_tax( 'project_status' ) || is_tax( 'project_category' ) ) {
         return '100%';
     }
 }

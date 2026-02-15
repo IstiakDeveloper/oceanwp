@@ -11,7 +11,7 @@ get_header(); ?>
 
 <div id="content-wrap" class="container clr">
 
-	<div id="primary" class="content-area clr">
+	<div id="primary" class="content-area clr full-width-no-sidebar">
 
 		<?php do_action( 'ocean_before_content_inner' ); ?>
 

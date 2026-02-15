@@ -316,13 +316,14 @@ add_action( 'wp_enqueue_scripts', 'oceanwp_enqueue_projects_assets' );
  * Force full-width layout for single project pages
  */
 function oceanwp_project_full_width_layout( $layout ) {
-    if ( is_singular( 'ngo_project' ) ) {
+    if ( is_singular( 'ngo_project' ) || is_post_type_archive( 'ngo_project' ) ) {
         return 'full-width';
     }
     return $layout;
 }
-add_filter( 'ocean_post_layout', 'oceanwp_project_full_width_layout' );
-add_filter( 'ocean_both_sidebars_style', 'oceanwp_project_full_width_layout' );
+add_filter( 'ocean_post_layout', 'oceanwp_project_full_width_layout', 999 );
+add_filter( 'ocean_both_sidebars_style', 'oceanwp_project_full_width_layout', 999 );
+add_filter( 'ocean_content_layout', 'oceanwp_project_full_width_layout', 999 );
 
 /**
  * Remove sidebar from project archive and single pages
@@ -333,4 +334,31 @@ function oceanwp_remove_project_sidebar( $display ) {
     }
     return $display;
 }
-add_filter( 'ocean_display_sidebar', 'oceanwp_remove_project_sidebar' );
+add_filter( 'ocean_display_sidebar', 'oceanwp_remove_project_sidebar', 999 );
+add_filter( 'ocean_display_right_sidebar', 'oceanwp_remove_project_sidebar', 999 );
+add_filter( 'ocean_display_left_sidebar', 'oceanwp_remove_project_sidebar', 999 );
+
+/**
+ * Add custom body class for full width
+ */
+function oceanwp_project_body_class( $classes ) {
+    if ( is_singular( 'ngo_project' ) || is_post_type_archive( 'ngo_project' ) ) {
+        $classes[] = 'content-full-width';
+        $classes[] = 'no-sidebar';
+        $classes[] = 'full-width-content';
+        // Remove any sidebar classes
+        $classes = array_diff( $classes, array( 'has-sidebar', 'right-sidebar', 'left-sidebar' ) );
+    }
+    return $classes;
+}
+add_filter( 'body_class', 'oceanwp_project_body_class', 999 );
+
+/**
+ * Force full width for primary content
+ */
+function oceanwp_project_content_width() {
+    if ( is_singular( 'ngo_project' ) || is_post_type_archive( 'ngo_project' ) ) {
+        return '100%';
+    }
+}
+add_filter( 'ocean_main_content_width', 'oceanwp_project_content_width', 999 );

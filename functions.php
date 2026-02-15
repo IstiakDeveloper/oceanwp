@@ -3608,6 +3608,10 @@ function oceanwp_preloader_styles() {
 	if ( is_admin() ) return;
 
 	$css = '
+	html.preloader-active {
+		overflow: hidden !important;
+		height: 100% !important;
+	}
 	#oceanwp-preloader {
 		position: fixed;
 		top: 0;
@@ -3619,11 +3623,14 @@ function oceanwp_preloader_styles() {
 		align-items: center;
 		justify-content: center;
 		z-index: 999999;
-		transition: opacity 0.5s ease, visibility 0.5s ease;
+		opacity: 1;
+		visibility: visible;
+		transition: opacity 0.6s ease, visibility 0.6s ease;
 	}
 	#oceanwp-preloader.loaded {
 		opacity: 0;
 		visibility: hidden;
+		pointer-events: none;
 	}
 	.preloader-inner {
 		text-align: center;
@@ -3674,21 +3681,40 @@ function oceanwp_preloader_styles() {
 }
 add_action( 'wp_enqueue_scripts', 'oceanwp_preloader_styles', 1 );
 
+function oceanwp_preloader_inline_script() {
+	if ( is_admin() ) return;
+	?>
+	<script>
+	document.documentElement.classList.add('preloader-active');
+	</script>
+	<?php
+}
+add_action( 'wp_head', 'oceanwp_preloader_inline_script', 1 );
+
 function oceanwp_preloader_script() {
 	if ( is_admin() ) return;
 
 	$js = '
-	window.addEventListener("load", function() {
-		var preloader = document.getElementById("oceanwp-preloader");
-		if (preloader) {
+	(function() {
+		function hidePreloader() {
+			var preloader = document.getElementById("oceanwp-preloader");
+			if (!preloader || preloader.classList.contains("loaded")) return;
+			preloader.classList.add("loaded");
+			document.documentElement.classList.remove("preloader-active");
 			setTimeout(function() {
-				preloader.classList.add("loaded");
-				setTimeout(function() {
-					preloader.style.display = "none";
-				}, 500);
-			}, 300);
+				preloader.style.display = "none";
+			}, 600);
 		}
-	});
+
+		if (document.readyState === "complete") {
+			hidePreloader();
+		} else {
+			window.addEventListener("load", hidePreloader);
+		}
+
+		// Safety fallback: max 5 seconds e preloader hide hobe
+		setTimeout(hidePreloader, 5000);
+	})();
 	';
 
 	wp_register_script( 'oceanwp-preloader-js', false, array(), false, true );

@@ -3704,25 +3704,16 @@ function oceanwp_preloader_styles() {
 }
 add_action( 'wp_enqueue_scripts', 'oceanwp_preloader_styles', 1 );
 
-function oceanwp_preloader_inline_script() {
+function oceanwp_preloader_head_script() {
 	if ( is_admin() ) return;
 	?>
 	<script>
 	document.documentElement.classList.add('preloader-active');
-	</script>
-	<?php
-}
-add_action( 'wp_head', 'oceanwp_preloader_inline_script', 1 );
-
-function oceanwp_preloader_script() {
-	if ( is_admin() ) return;
-
-	$js = '
 	(function() {
 		var touchHandler = function(e) { e.preventDefault(); };
 		document.addEventListener("touchmove", touchHandler, { passive: false });
 
-		function hidePreloader() {
+		window.__hidePreloader = function() {
 			var preloader = document.getElementById("oceanwp-preloader");
 			if (!preloader || preloader.classList.contains("loaded")) return;
 			preloader.classList.add("loaded");
@@ -3731,20 +3722,25 @@ function oceanwp_preloader_script() {
 			setTimeout(function() {
 				preloader.style.display = "none";
 			}, 600);
-		}
+		};
 
-		if (document.readyState === "complete") {
-			hidePreloader();
-		} else {
-			window.addEventListener("load", hidePreloader);
-		}
-
-		setTimeout(hidePreloader, 5000);
+		window.addEventListener("load", window.__hidePreloader);
+		document.addEventListener("DOMContentLoaded", function() {
+			setTimeout(window.__hidePreloader, 500);
+		});
+		setTimeout(window.__hidePreloader, 5000);
 	})();
-	';
-
-	wp_register_script( 'oceanwp-preloader-js', false, array(), false, true );
-	wp_enqueue_script( 'oceanwp-preloader-js' );
-	wp_add_inline_script( 'oceanwp-preloader-js', $js );
+	</script>
+	<?php
 }
-add_action( 'wp_enqueue_scripts', 'oceanwp_preloader_script', 1 );
+add_action( 'wp_head', 'oceanwp_preloader_head_script', 1 );
+
+function oceanwp_preloader_footer_fallback() {
+	if ( is_admin() ) return;
+	?>
+	<script>
+	if (window.__hidePreloader) window.__hidePreloader();
+	</script>
+	<?php
+}
+add_action( 'wp_footer', 'oceanwp_preloader_footer_fallback', 9999 );

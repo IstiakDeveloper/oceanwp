@@ -69,9 +69,9 @@ html {
 }
 
 .single-ngo_project #content-wrap {
-	max-width: 1080px;
+	max-width: 1100px;
 	margin: 0 auto;
-	padding: 60px 30px;
+	padding: 50px 40px;
 }
 
 .single-ngo_project #content,
@@ -294,7 +294,7 @@ html {
 
 /* Project Count Badge for Taxonomy Pages */
 .project-count-info {
-	margin-top: 15px;
+	margin-top: 12px;
 	display: flex;
 	justify-content: center;
 }
@@ -302,25 +302,25 @@ html {
 .count-badge {
 	display: inline-flex;
 	align-items: center;
-	gap: 12px;
-	padding: 12px 28px;
-	background: rgba(255, 255, 255, 0.2);
-	border: 2px solid rgba(255, 255, 255, 0.4);
-	border-radius: 30px;
-	font-size: 16px;
-	font-weight: 700;
+	gap: 8px;
+	padding: 8px 18px;
+	background: rgba(255, 255, 255, 0.15);
+	border: 1px solid rgba(255, 255, 255, 0.3);
+	border-radius: 20px;
+	font-size: 14px;
+	font-weight: 600;
 	color: #fff;
-	backdrop-filter: blur(10px);
-	-webkit-backdrop-filter: blur(10px);
-	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+	backdrop-filter: blur(8px);
+	-webkit-backdrop-filter: blur(8px);
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 	position: relative;
 	z-index: 1;
 }
 
 .count-badge::before {
 	content: '📊';
-	font-size: 22px;
-	filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.15));
+	font-size: 16px;
+	filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.1));
 }
 
 /* Taxonomy Page Header Specific Styles */
@@ -328,12 +328,12 @@ body.taxonomy-project_status .page-header,
 body.term-ongoing .page-header,
 body.term-completed .page-header {
 	text-align: center;
-	margin-bottom: 50px;
-	padding: 60px 40px;
+	margin-bottom: 40px;
+	padding: 35px 30px 30px;
 	background: linear-gradient(135deg, #059669 0%, #047857 100%);
-	border-radius: 16px;
+	border-radius: 12px;
 	color: #fff;
-	box-shadow: 0 12px 45px rgba(5, 150, 105, 0.3);
+	box-shadow: 0 4px 20px rgba(5, 150, 105, 0.2);
 	position: relative;
 	overflow: hidden;
 }
@@ -348,33 +348,33 @@ body.term-completed .page-header::before {
 	right: 0;
 	bottom: 0;
 	background: url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23ffffff" fill-opacity="0.05"%3E%3Cpath d="M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');
-	opacity: 0.4;
+	opacity: 0.15;
 	pointer-events: none;
 }
 
 body.taxonomy-project_status .page-header .page-title,
 body.term-ongoing .page-header .page-title,
 body.term-completed .page-header .page-title {
-	font-size: 44px;
+	font-size: 32px;
 	font-weight: 700;
-	margin-bottom: 16px;
+	margin-bottom: 10px;
 	color: #fff;
-	text-shadow: 0 2px 15px rgba(0, 0, 0, 0.15);
+	text-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 	position: relative;
 	z-index: 1;
-	letter-spacing: -0.8px;
+	letter-spacing: -0.3px;
 }
 
 body.taxonomy-project_status .page-header .archive-description,
 body.term-ongoing .page-header .archive-description,
 body.term-completed .page-header .archive-description {
-	font-size: 18px;
-	color: rgba(255, 255, 255, 0.95);
-	margin: 0 0 24px 0;
+	font-size: 15px;
+	color: rgba(255, 255, 255, 0.9);
+	margin: 0 0 15px 0;
 	position: relative;
 	z-index: 1;
-	line-height: 1.7;
-	max-width: 800px;
+	line-height: 1.6;
+	max-width: 650px;
 	margin-left: auto;
 	margin-right: auto;
 }
@@ -383,27 +383,27 @@ body.term-completed .page-header .archive-description {
 .taxonomy-navigation {
 	display: flex;
 	justify-content: center;
-	gap: 16px;
-	margin-bottom: 40px;
+	gap: 12px;
+	margin-bottom: 35px;
 	flex-wrap: wrap;
 }
 
 .taxonomy-nav-link {
 	display: flex;
 	align-items: center;
-	gap: 14px;
-	padding: 18px 36px;
+	gap: 10px;
+	padding: 12px 24px;
 	background: #fff;
 	border: 2px solid #e5e7eb;
-	border-radius: 12px;
+	border-radius: 8px;
 	text-decoration: none;
 	color: #4b5563;
 	font-weight: 600;
-	font-size: 16px;
+	font-size: 14px;
 	transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 	position: relative;
 	overflow: hidden;
-	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
 }
 
 .taxonomy-nav-link::before {
@@ -412,7 +412,7 @@ body.term-completed .page-header .archive-description {
 	top: 0;
 	left: 0;
 	right: 0;
-	height: 3px;
+	height: 2px;
 	background: transparent;
 	transition: all 0.3s ease;
 }
@@ -420,8 +420,8 @@ body.term-completed .page-header .archive-description {
 .taxonomy-nav-link:hover {
 	border-color: #059669;
 	color: #059669;
-	transform: translateY(-4px);
-	box-shadow: 0 10px 25px rgba(5, 150, 105, 0.25);
+	transform: translateY(-2px);
+	box-shadow: 0 4px 12px rgba(5, 150, 105, 0.15);
 	background: #f0fdf7;
 }
 
@@ -433,8 +433,8 @@ body.term-completed .page-header .archive-description {
 	background: linear-gradient(135deg, #059669 0%, #047857 100%);
 	border-color: #047857;
 	color: #fff;
-	box-shadow: 0 10px 30px rgba(5, 150, 105, 0.4);
-	transform: translateY(-4px) scale(1.03);
+	box-shadow: 0 4px 15px rgba(5, 150, 105, 0.25);
+	transform: translateY(-2px);
 }
 
 .taxonomy-nav-link.active::before {
@@ -442,20 +442,19 @@ body.term-completed .page-header .archive-description {
 }
 
 .nav-icon {
-	font-size: 22px;
+	font-size: 18px;
 	line-height: 1;
-	filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
 }
 
 .nav-count {
 	background: rgba(0, 0, 0, 0.08);
-	padding: 4px 12px;
-	border-radius: 15px;
+	padding: 2px 10px;
+	border-radius: 12px;
 	font-size: 13px;
-	font-weight: 700;
-	min-width: 32px;
+	font-weight: 600;
+	min-width: 28px;
 	text-align: center;
-	line-height: 1.4;
+	line-height: 1.5;
 }
 
 .taxonomy-nav-link.active .nav-count {
@@ -471,8 +470,9 @@ body.term-completed .page-header .archive-description {
 body.taxonomy-project_status #content-wrap,
 body.term-ongoing #content-wrap,
 body.term-completed #content-wrap {
-	padding-top: 30px;
-	padding-bottom: 50px;
+	padding-top: 40px;
+	padding-bottom: 60px;
+	max-width: 1280px;
 }
 
 body.taxonomy-project_status .projects-grid,
@@ -796,10 +796,10 @@ body.term-completed .no-projects-found p {
 
 /* Project Hero Image */
 .project-hero-image {
-	margin-bottom: 30px;
+	margin-bottom: 25px;
 	border-radius: 8px;
 	overflow: hidden;
-	max-height: 450px;
+	max-height: 420px;
 }
 
 @media (max-width: 767px) {
@@ -816,8 +816,8 @@ body.term-completed .no-projects-found p {
 
 /* Project Header Section */
 .project-header-section {
-	margin-bottom: 35px;
-	padding-bottom: 25px;
+	margin-bottom: 30px;
+	padding-bottom: 20px;
 	border-bottom: 2px solid #e5e7eb;
 }
 
@@ -834,11 +834,11 @@ body.term-completed .no-projects-found p {
 }
 
 .project-main-title {
-	font-size: 32px;
+	font-size: 30px;
 	font-weight: 600;
 	color: #111827;
 	line-height: 1.3;
-	margin: 0 0 15px 0;
+	margin: 0 0 14px 0;
 }
 
 @media (max-width: 767px) {
@@ -865,26 +865,26 @@ body.term-completed .no-projects-found p {
 /* Project Key Info Box */
 .project-key-info {
 	background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
-	padding: 24px;
+	padding: 20px;
 	border-radius: 8px;
 	border-left: 4px solid #059669;
 	margin-bottom: 30px;
-	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
 .project-key-info .info-title {
-	font-size: 18px;
+	font-size: 17px;
 	font-weight: 600;
-	margin: 0 0 20px 0;
+	margin: 0 0 16px 0;
 	color: #065f46;
-	padding-bottom: 12px;
+	padding-bottom: 10px;
 	border-bottom: 2px solid rgba(6, 95, 70, 0.2);
 }
 
 .info-box {
-	margin-bottom: 16px;
+	margin-bottom: 14px;
 	display: grid;
-	grid-template-columns: 140px 1fr;
+	grid-template-columns: 130px 1fr;
 	gap: 12px;
 	align-items: start;
 }
@@ -909,18 +909,18 @@ body.term-completed .no-projects-found p {
 
 /* Project Content Section */
 .project-content-section {
-	margin-bottom: 40px;
-}
-
-.project-content-section > div {
 	margin-bottom: 35px;
 }
 
+.project-content-section > div {
+	margin-bottom: 30px;
+}
+
 .project-content-section h2 {
-	font-size: 24px;
+	font-size: 22px;
 	font-weight: 600;
 	color: #111827;
-	margin: 0 0 18px 0;
+	margin: 0 0 16px 0;
 	padding-bottom: 10px;
 	border-bottom: 3px solid #059669;
 	position: relative;
@@ -939,7 +939,7 @@ body.term-completed .no-projects-found p {
 /* Project Summary */
 .project-summary {
 	background: #f9fafb;
-	padding: 20px;
+	padding: 18px;
 	border-radius: 8px;
 	border-left: 4px solid #059669;
 }
@@ -964,7 +964,7 @@ body.term-completed .no-projects-found p {
 /* Project Goals */
 .goals-content {
 	background: #fff;
-	padding: 20px;
+	padding: 18px;
 	border-radius: 8px;
 	border: 1px solid #e5e7eb;
 	font-size: 14px;
@@ -975,7 +975,7 @@ body.term-completed .no-projects-found p {
 /* Project Outcomes */
 .project-outcomes {
 	background: #f9fafb;
-	padding: 25px;
+	padding: 20px;
 	border-radius: 8px;
 }
 
@@ -988,7 +988,7 @@ body.term-completed .no-projects-found p {
 }
 
 .outcomes-list li {
-	padding: 12px 16px 12px 40px;
+	padding: 10px 14px 10px 38px;
 	background: #fff;
 	border-radius: 6px;
 	position: relative;
@@ -1106,8 +1106,11 @@ body.term-completed .no-projects-found p {
 @media (max-width: 767px) {
 	/* Content Wrap - Mobile */
 	.post-type-archive-ngo_project #content-wrap,
-	.single-ngo_project #content-wrap {
-		padding: 40px 20px;
+	.single-ngo_project #content-wrap,
+	body.taxonomy-project_status #content-wrap,
+	body.term-ongoing #content-wrap,
+	body.term-completed #content-wrap {
+		padding: 30px 16px;
 	}
 	
 	/* Archive Page Header - Mobile */
@@ -1129,31 +1132,33 @@ body.term-completed .no-projects-found p {
 	body.taxonomy-project_status .page-header,
 	body.term-ongoing .page-header,
 	body.term-completed .page-header {
-		padding: 40px 24px;
-		margin-bottom: 35px;
-		border-radius: 12px;
+		padding: 30px 20px 25px;
+		margin-bottom: 30px;
+		border-radius: 10px;
 	}
 	
 	body.taxonomy-project_status .page-header .page-title,
 	body.term-ongoing .page-header .page-title,
 	body.term-completed .page-header .page-title {
-		font-size: 32px;
+		font-size: 26px;
+		margin-bottom: 8px;
 	}
 	
 	body.taxonomy-project_status .page-header .archive-description,
 	body.term-ongoing .page-header .archive-description,
 	body.term-completed .page-header .archive-description {
-		font-size: 15px;
+		font-size: 14px;
+		margin-bottom: 12px;
 	}
 	
 	.count-badge {
-		padding: 10px 20px;
-		font-size: 14px;
-		gap: 10px;
+		padding: 6px 16px;
+		font-size: 13px;
+		gap: 6px;
 	}
 	
 	.count-badge::before {
-		font-size: 18px;
+		font-size: 14px;
 	}
 	
 	/* Status Tabs - Mobile */
@@ -1181,25 +1186,25 @@ body.term-completed .no-projects-found p {
 	
 	/* Taxonomy Navigation - Mobile */
 	.taxonomy-navigation {
-		gap: 12px;
-		margin-bottom: 35px;
+		gap: 10px;
+		margin-bottom: 30px;
 	}
 	
 	.taxonomy-nav-link {
-		padding: 14px 24px;
-		font-size: 14px;
-		gap: 10px;
-		border-radius: 10px;
+		padding: 10px 18px;
+		font-size: 13px;
+		gap: 8px;
+		border-radius: 7px;
 	}
 	
 	.nav-icon {
-		font-size: 20px;
+		font-size: 16px;
 	}
 	
 	.nav-count {
-		padding: 3px 12px;
-		font-size: 13px;
-		min-width: 30px;
+		padding: 2px 8px;
+		font-size: 12px;
+		min-width: 24px;
 	}
 	
 	.nav-label {
@@ -1208,7 +1213,7 @@ body.term-completed .no-projects-found p {
 	
 	.taxonomy-nav-link:hover,
 	.taxonomy-nav-link.active {
-		transform: translateY(-2px) scale(1.0);
+		transform: translateY(-1px);
 	}
 	
 	/* Projects Grid - Mobile */
@@ -1260,27 +1265,63 @@ body.term-completed .no-projects-found p {
 		gap: 6px;
 	}
 	
-	/* Project Status Filter - Mobile */
-	.project-status-filter {
-		gap: 10px;
-	}
-	
-	.project-status-filter .filter-btn {
-		padding: 10px 18px;
-		font-size: 13px;
-	}
-	
-	.project-content-section h2 {
-		font-size: 20px;
-	}
-	
+	/* Project Key Info - Mobile */
 	.project-key-info {
-		padding: 20px;
+		padding: 16px;
+	}
+	
+	.project-key-info .info-title {
+		font-size: 15px;
+		margin-bottom: 14px;
+		padding-bottom: 8px;
 	}
 	
 	.info-box {
 		grid-template-columns: 1fr;
-		gap: 4px;
+		gap: 6px;
+		margin-bottom: 12px;
+	}
+	
+	/* Single Project Page - Mobile */
+	.project-hero-image {
+		max-height: 280px;
+		margin-bottom: 20px;
+	}
+	
+	.project-header-section {
+		margin-bottom: 25px;
+		padding-bottom: 18px;
+	}
+	
+	.project-main-title {
+		font-size: 24px;
+		margin-bottom: 12px;
+	}
+	
+	.project-content-section {
+		margin-bottom: 30px;
+	}
+	
+	.project-content-section > div {
+		margin-bottom: 25px;
+	}
+	
+	.project-content-section h2 {
+		font-size: 19px;
+		margin-bottom: 14px;
+	}
+	
+	.project-summary,
+	.goals-content {
+		padding: 16px;
+	}
+	
+	.project-outcomes {
+		padding: 16px;
+	}
+	
+	.outcomes-list li {
+		padding: 10px 12px 10px 36px;
 	}
 	
 	.nav-previous,
@@ -1291,18 +1332,21 @@ body.term-completed .no-projects-found p {
 
 @media (min-width: 768px) and (max-width: 1024px) {
 	/* Content Wrap - Tablet */
-	.post-type-archive-ngo_project #content-wrap {
-		padding: 50px 25px;
+	.post-type-archive-ngo_project #content-wrap,
+	body.taxonomy-project_status #content-wrap,
+	body.term-ongoing #content-wrap,
+	body.term-completed #content-wrap {
+		padding: 45px 25px;
 	}
 	
 	.single-ngo_project #content-wrap {
-		padding: 50px 25px;
+		padding: 45px 30px;
 	}
 	
 	/* Archive Page Header - Tablet */
 	.post-type-archive-ngo_project .page-header {
-		padding: 50px 35px;
-		margin-bottom: 45px;
+		padding: 45px 35px;
+		margin-bottom: 40px;
 	}
 	
 	.post-type-archive-ngo_project .page-header .page-title {
@@ -1317,25 +1361,25 @@ body.term-completed .no-projects-found p {
 	body.taxonomy-project_status .page-header,
 	body.term-ongoing .page-header,
 	body.term-completed .page-header {
-		padding: 50px 35px;
-		margin-bottom: 45px;
+		padding: 40px 30px 35px;
+		margin-bottom: 38px;
 	}
 	
 	body.taxonomy-project_status .page-header .page-title,
 	body.term-ongoing .page-header .page-title,
 	body.term-completed .page-header .page-title {
-		font-size: 40px;
+		font-size: 30px;
 	}
 	
 	body.taxonomy-project_status .page-header .archive-description,
 	body.term-ongoing .page-header .archive-description,
 	body.term-completed .page-header .archive-description {
-		font-size: 17px;
+		font-size: 15px;
 	}
 	
 	.count-badge {
-		padding: 11px 26px;
-		font-size: 15px;
+		padding: 9px 20px;
+		font-size: 14px;
 	}
 	
 	/* Status Tabs - Tablet */
@@ -1346,8 +1390,8 @@ body.term-completed .no-projects-found p {
 	
 	/* Taxonomy Navigation - Tablet */
 	.taxonomy-nav-link {
-		padding: 16px 30px;
-		font-size: 15px;
+		padding: 12px 26px;
+		font-size: 14px;
 	}
 	
 	/* Projects Grid - Tablet */

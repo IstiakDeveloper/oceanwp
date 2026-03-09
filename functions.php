@@ -2034,11 +2034,177 @@ add_filter('the_content', 'mousumi_display_pdf_viewer');
 
 
 /**
+ * Gallery Custom Post Type - Admin এ Gallery মেনু ও আপডেটের জন্য
+ */
+function mousumi_register_gallery_post_type() {
+    $labels = array(
+        'name'                  => 'Galleries',
+        'singular_name'         => 'Gallery',
+        'menu_name'             => 'Gallery',
+        'add_new'               => 'Add New Gallery',
+        'add_new_item'          => 'Add New Gallery',
+        'edit_item'             => 'Edit Gallery',
+        'new_item'              => 'New Gallery',
+        'view_item'             => 'View Gallery',
+        'search_items'          => 'Search Galleries',
+        'not_found'             => 'No galleries found',
+        'not_found_in_trash'    => 'No galleries found in trash',
+        'all_items'             => 'All Galleries',
+    );
+
+    $args = array(
+        'labels'                => $labels,
+        'public'                => true,
+        'publicly_queryable'    => true,
+        'show_ui'               => true,
+        'show_in_menu'          => true,
+        'menu_icon'             => 'dashicons-format-gallery',
+        'menu_position'         => 26,
+        'supports'              => array('title', 'editor'),
+        'has_archive'           => false,
+        'rewrite'               => array('slug' => 'gallery'),
+        'show_in_rest'          => true,
+    );
+
+    register_post_type('photo_gallery', $args);
+}
+add_action('init', 'mousumi_register_gallery_post_type');
+
+function mousumi_gallery_rewrite_flush() {
+    if (get_option('mousumi_gallery_flush_rewrite') !== 'done') {
+        mousumi_register_gallery_post_type();
+        flush_rewrite_rules();
+        update_option('mousumi_gallery_flush_rewrite', 'done');
+    }
+}
+add_action('after_switch_theme', 'mousumi_gallery_rewrite_flush');
+
+// Gallery image IDs meta box
+function mousumi_gallery_images_meta_box() {
+    add_meta_box(
+        'mousumi_gallery_images',
+        'Gallery Images',
+        'mousumi_gallery_images_callback',
+        'photo_gallery',
+        'normal',
+        'default'
+    );
+}
+add_action('add_meta_boxes', 'mousumi_gallery_images_meta_box');
+
+function mousumi_gallery_images_callback($post) {
+    wp_nonce_field('mousumi_gallery_images_nonce', 'mousumi_gallery_images_nonce');
+    $gallery_ids = get_post_meta($post->ID, '_gallery_image_ids', true);
+    if (!is_array($gallery_ids)) {
+        $gallery_ids = array_filter(array_map('intval', explode(',', $gallery_ids)));
+    }
+    $gallery_ids = array_values($gallery_ids);
+    $ids_string = implode(',', $gallery_ids);
+    ?>
+    <div class="mousumi-gallery-images-wrapper">
+        <input type="hidden" id="gallery_image_ids" name="gallery_image_ids" value="<?php echo esc_attr($ids_string); ?>">
+        <button type="button" class="button mousumi-gallery-add-images">
+            <?php echo count($gallery_ids) ? 'Edit Gallery Images' : 'Add Gallery Images'; ?>
+        </button>
+        <button type="button" class="button mousumi-gallery-clear-images" style="margin-left:8px;">Clear All</button>
+        <p class="description">Select multiple images. Use shortcode: <code>[photo_gallery id="<?php echo (int) $post->ID; ?>"]</code></p>
+        <ul id="mousumi-gallery-preview" class="mousumi-gallery-preview-list" style="margin-top:12px;display:flex;flex-wrap:wrap;gap:8px;list-style:none;padding:0;">
+            <?php
+            foreach ($gallery_ids as $img_id) {
+                $url = wp_get_attachment_image_url($img_id, 'thumbnail');
+                if ($url) {
+                    echo '<li data-id="' . esc_attr($img_id) . '" style="position:relative;"><img src="' . esc_url($url) . '" style="width:80px;height:80px;object-fit:cover;"><button type="button" class="mousumi-gallery-remove-one" style="position:absolute;top:2px;right:2px;cursor:pointer;">×</button></li>';
+                }
+            }
+            ?>
+        </ul>
+    </div>
+    <script>
+    jQuery(document).ready(function($){
+        var galleryFrame;
+        $('.mousumi-gallery-add-images').on('click', function(e) {
+            e.preventDefault();
+            if (galleryFrame) {
+                galleryFrame.open();
+                return;
+            }
+            galleryFrame = wp.media({
+                title: 'Select Gallery Images',
+                button: { text: 'Use selected' },
+                multiple: 'add',
+                library: { type: 'image' }
+            });
+            galleryFrame.on('select', function() {
+                var ids = $('#gallery_image_ids').val() ? $('#gallery_image_ids').val().split(',').filter(Boolean) : [];
+                var selection = galleryFrame.state().get('selection');
+                selection.each(function(att) {
+                    var id = att.get('id');
+                    if (ids.indexOf(String(id)) === -1) ids.push(String(id));
+                });
+                $('#gallery_image_ids').val(ids.join(','));
+                mousumiRefreshGalleryPreview();
+            });
+            galleryFrame.open();
+        });
+        $('.mousumi-gallery-clear-images').on('click', function() {
+            $('#gallery_image_ids').val('');
+            $('#mousumi-gallery-preview').empty();
+        });
+        $(document).on('click', '.mousumi-gallery-remove-one', function() {
+            var id = $(this).closest('li').data('id');
+            var ids = $('#gallery_image_ids').val().split(',').filter(Boolean);
+            ids = ids.filter(function(i) { return i !== String(id); });
+            $('#gallery_image_ids').val(ids.join(','));
+            $(this).closest('li').remove();
+        });
+        function mousumiRefreshGalleryPreview() {
+            var ids = $('#gallery_image_ids').val();
+            if (!ids) { $('#mousumi-gallery-preview').empty(); return; }
+            $.post(ajaxurl, {
+                action: 'mousumi_gallery_preview',
+                ids: ids,
+                nonce: '<?php echo esc_js(wp_create_nonce('mousumi_gallery_preview')); ?>'
+            }, function(res) {
+                if (res && res.html) $('#mousumi-gallery-preview').html(res.html);
+            });
+        }
+    });
+    </script>
+    <?php
+}
+
+add_action('wp_ajax_mousumi_gallery_preview', function() {
+    check_ajax_referer('mousumi_gallery_preview', 'nonce');
+    $ids = isset($_POST['ids']) ? array_filter(array_map('intval', explode(',', sanitize_text_field($_POST['ids'])))) : array();
+    $html = '';
+    foreach ($ids as $img_id) {
+        $url = wp_get_attachment_image_url($img_id, 'thumbnail');
+        if ($url) {
+            $html .= '<li data-id="' . esc_attr($img_id) . '" style="position:relative;"><img src="' . esc_url($url) . '" style="width:80px;height:80px;object-fit:cover;"><button type="button" class="mousumi-gallery-remove-one" style="position:absolute;top:2px;right:2px;cursor:pointer;">×</button></li>';
+        }
+    }
+    wp_send_json_success(array('html' => $html));
+});
+
+function mousumi_save_gallery_images($post_id) {
+    if (!isset($_POST['mousumi_gallery_images_nonce']) || !wp_verify_nonce($_POST['mousumi_gallery_images_nonce'], 'mousumi_gallery_images_nonce')) {
+        return;
+    }
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
+    if (!current_user_can('edit_post', $post_id)) return;
+    if (get_post_type($post_id) !== 'photo_gallery') return;
+    if (isset($_POST['gallery_image_ids'])) {
+        $ids = array_filter(array_map('intval', explode(',', sanitize_text_field($_POST['gallery_image_ids']))));
+        update_post_meta($post_id, '_gallery_image_ids', $ids);
+    }
+}
+add_action('save_post_photo_gallery', 'mousumi_save_gallery_images');
+
+
+/**
  * Multi-Item Carousel Gallery System
  * Shows 4-5 images at once that slide together
  */
-
-// Previous code এর সাথে এই function গুলো replace করুন
 
 // 3. Gallery Shortcode (UPDATED)
 function mousumi_photo_gallery_shortcode($atts) {

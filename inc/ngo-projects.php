@@ -304,7 +304,7 @@ function oceanwp_enqueue_projects_assets() {
         'oceanwp-ngo-projects',
         OCEANWP_THEME_URI . '/assets/css/ngo-projects.css',
         array(),
-        '1.0.0'
+        '1.0.1'
     );
     
     // Enqueue jQuery if not already loaded

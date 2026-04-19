@@ -111,16 +111,8 @@ html {
 	width: 100% !important;
 }
 
-/* Universal sidebar block - catch ALL scenarios */
-.single-ngo_project *[class*="sidebar"],
-.single-ngo_project *[class*="widget"],
-.single-ngo_project *[id*="sidebar"],
-.post-type-archive-ngo_project *[class*="sidebar"],
-.post-type-archive-ngo_project *[class*="widget"],
-.post-type-archive-ngo_project *[id*="sidebar"] {
-	display: none !important;
-	visibility: hidden !important;
-}
+/* Do not use [class*="sidebar"] or [class*="widget"] here: they match
+ * .full-width-no-sidebar (primary content) and many builder blocks, hiding the whole page. */
 
 /* Show main content only */
 .single-ngo_project .site-main,

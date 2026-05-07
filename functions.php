@@ -2207,7 +2207,7 @@ function mousumi_software_showcase_shortcode($atts) {
         'posts_per_page' => intval($atts['count']),
         'post_status'    => 'publish',
         'orderby'        => 'date',
-        'order'          => 'DESC',
+        'order'          => 'ASC',
     ));
 
     if (!$software_query->have_posts()) {

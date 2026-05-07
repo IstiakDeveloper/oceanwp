@@ -2255,95 +2255,203 @@ function mousumi_software_showcase_shortcode($atts) {
 
         <style>
             .mousumi-software-showcase-section {
-                padding: 50px 20px;
-                background: #f9fafb;
+                padding: 60px 20px;
+                background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
                 font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                position: relative;
+            }
+            .mousumi-software-showcase-section::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="%23d1fae5" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+                opacity: 0.3;
+                pointer-events: none;
+            }
+            .mousumi-software-showcase-header {
+                position: relative;
+                z-index: 1;
+                text-align: center;
+                margin-bottom: 50px;
             }
             .mousumi-software-showcase-header h2 {
-                font-size: 2rem;
-                margin-bottom: 30px;
-                color: #111827;
-                text-align: center;
+                font-size: 2.5rem;
+                font-weight: 700;
+                margin: 0;
+                color: #065f46;
+                text-shadow: 0 2px 4px rgba(6, 95, 70, 0.1);
+                position: relative;
+                display: inline-block;
+            }
+            .mousumi-software-showcase-header h2::after {
+                content: '';
+                position: absolute;
+                bottom: -10px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 80px;
+                height: 4px;
+                background: linear-gradient(90deg, #16a34a, #22c55e);
+                border-radius: 2px;
             }
             .mousumi-software-showcase-grid {
                 display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-                gap: 24px;
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 32px;
                 align-items: stretch;
+                max-width: 1400px;
+                margin: 0 auto;
+                position: relative;
+                z-index: 1;
+                justify-items: center;
             }
             .mousumi-software-card {
-                background: #ffffff;
-                border: 1px solid #e5e7eb;
-                border-radius: 24px;
-                padding: 28px;
-                box-shadow: 0 14px 50px rgba(15, 23, 42, 0.08);
+                background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+                border: 2px solid #e5e7eb;
+                border-radius: 20px;
+                padding: 32px;
+                box-shadow: 0 20px 60px rgba(6, 95, 70, 0.08), 0 8px 32px rgba(6, 95, 70, 0.04);
                 display: flex;
                 flex-direction: column;
-                min-height: 100%;
-                transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+                min-height: 380px;
+                width: 100%;
+                max-width: 320px;
+                transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                position: relative;
+                overflow: hidden;
+            }
+            .mousumi-software-card::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 4px;
+                background: linear-gradient(90deg, #16a34a, #22c55e);
+                transform: scaleX(0);
+                transition: transform 0.3s ease;
             }
             .mousumi-software-card:hover {
-                transform: translateY(-4px);
-                border-color: #d1d5db;
-                box-shadow: 0 22px 60px rgba(15, 23, 42, 0.12);
+                transform: translateY(-8px) scale(1.02);
+                border-color: #16a34a;
+                box-shadow: 0 32px 80px rgba(6, 95, 70, 0.12), 0 16px 48px rgba(6, 95, 70, 0.08);
+            }
+            .mousumi-software-card:hover::before {
+                transform: scaleX(1);
             }
             .mousumi-software-card-icon {
-                width: 72px;
-                height: 72px;
-                margin-bottom: 20px;
+                width: 80px;
+                height: 80px;
+                margin: 0 auto 24px;
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                border-radius: 20px;
-                background: #eef2ff;
+                border-radius: 50%;
+                background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+                border: 3px solid #16a34a;
+                box-shadow: 0 8px 24px rgba(22, 163, 74, 0.2);
                 overflow: hidden;
+                transition: all 0.3s ease;
+            }
+            .mousumi-software-card:hover .mousumi-software-card-icon {
+                transform: scale(1.1);
+                box-shadow: 0 12px 32px rgba(22, 163, 74, 0.3);
             }
             .mousumi-software-card-icon img {
                 max-width: 100%;
                 max-height: 100%;
                 object-fit: contain;
+                border-radius: 50%;
             }
             .mousumi-software-card-icon-placeholder {
-                font-size: 1.75rem;
-                color: #4f46e5;
+                font-size: 2rem;
+                color: #16a34a;
                 font-weight: 700;
             }
+            .mousumi-software-card-body {
+                text-align: center;
+                flex-grow: 1;
+            }
             .mousumi-software-card-title {
-                font-size: 1.25rem;
-                margin: 0 0 12px;
-                line-height: 1.3;
+                font-size: 1.375rem;
+                font-weight: 600;
+                margin: 0 0 16px;
+                line-height: 1.4;
             }
             .mousumi-software-card-title a {
-                color: #111827;
+                color: #065f46;
                 text-decoration: none;
+                transition: color 0.3s ease;
             }
             .mousumi-software-card-title a:hover {
-                color: #4f46e5;
+                color: #16a34a;
             }
             .mousumi-software-card-description {
-                color: #4b5563;
-                font-size: 0.96rem;
-                line-height: 1.75;
-                margin: 0 0 22px;
+                color: #374151;
+                font-size: 1rem;
+                line-height: 1.6;
+                margin: 0 0 24px;
                 flex-grow: 1;
             }
             .mousumi-software-card-footer {
                 margin-top: auto;
+                text-align: center;
             }
             .mousumi-software-card-button {
                 display: inline-flex;
                 align-items: center;
                 justify-content: center;
-                padding: 12px 18px;
-                border-radius: 999px;
-                background: #4f46e5;
+                padding: 14px 28px;
+                border-radius: 50px;
+                background: linear-gradient(135deg, #16a34a 0%, #22c55e 100%);
                 color: #ffffff;
                 text-decoration: none;
                 font-weight: 600;
-                transition: background .25s ease;
+                font-size: 0.95rem;
+                transition: all 0.3s ease;
+                box-shadow: 0 4px 16px rgba(22, 163, 74, 0.3);
+                border: none;
+                position: relative;
+                overflow: hidden;
+            }
+            .mousumi-software-card-button::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+                transition: left 0.5s ease;
+            }
+            .mousumi-software-card-button:hover::before {
+                left: 100%;
             }
             .mousumi-software-card-button:hover {
-                background: #4338ca;
+                background: linear-gradient(135deg, #15803d 0%, #16a34a 100%);
+                transform: translateY(-2px);
+                box-shadow: 0 8px 24px rgba(22, 163, 74, 0.4);
+            }
+
+            @media (max-width: 768px) {
+                .mousumi-software-showcase-section {
+                    padding: 40px 15px;
+                }
+                .mousumi-software-showcase-header h2 {
+                    font-size: 2rem;
+                }
+                .mousumi-software-showcase-grid {
+                    grid-template-columns: 1fr;
+                    gap: 24px;
+                }
+                .mousumi-software-card {
+                    max-width: 100%;
+                    padding: 24px;
+                    min-height: 320px;
+                }
             }
         </style>
     </section>
@@ -2353,6 +2461,38 @@ function mousumi_software_showcase_shortcode($atts) {
     return ob_get_clean();
 }
 add_shortcode('mousumi_software_showcase', 'mousumi_software_showcase_shortcode');
+
+// Admin Column - Show Shortcode for Software Showcase
+function mousumi_software_showcase_admin_columns($columns) {
+    $new_columns = array();
+    foreach($columns as $key => $value) {
+        $new_columns[$key] = $value;
+        if($key === 'title') {
+            $new_columns['shortcode'] = 'Shortcode';
+        }
+    }
+    return $new_columns;
+}
+add_filter('manage_software_showcase_posts_columns', 'mousumi_software_showcase_admin_columns');
+
+function mousumi_software_showcase_admin_column_content($column, $post_id) {
+    if($column === 'shortcode') {
+        echo '<code>[mousumi_software_showcase]</code>';
+    }
+}
+add_action('manage_software_showcase_posts_custom_column', 'mousumi_software_showcase_admin_column_content', 10, 2);
+
+// Admin Notice for Software Showcase
+function mousumi_software_showcase_admin_notice() {
+    $screen = get_current_screen();
+    if ($screen->post_type === 'software_showcase') {
+        echo '<div class="notice notice-info is-dismissible" style="margin: 20px 0;">';
+        echo '<p><strong>Software Showcase Shortcode:</strong> Use <code style="background: #f0f0f0; padding: 2px 6px; border-radius: 3px;">[mousumi_software_showcase]</code> in any page or post to display all software items in a grid layout.</p>';
+        echo '<p>You can customize the display with attributes: <code style="background: #f0f0f0; padding: 2px 6px; border-radius: 3px;">[mousumi_software_showcase count="6" title="Our Software"]</code></p>';
+        echo '</div>';
+    }
+}
+add_action('admin_notices', 'mousumi_software_showcase_admin_notice');
 
 /**
  * Gallery Custom Post Type - Admin এ Gallery মেনু ও আপডেটের জন্য

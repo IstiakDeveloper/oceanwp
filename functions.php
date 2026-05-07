@@ -1459,7 +1459,7 @@ function mousumi_notice_settings_page() {
 // 4. Display Latest Notice Section (Shortcode Only)
 function mousumi_latest_notice_section($atts) {
     $atts = shortcode_atts(array(
-        'count' => 1,
+        'count' => 3,
     ), $atts);
     
     $notices_query = new WP_Query(array(
@@ -2032,6 +2032,327 @@ function mousumi_display_pdf_viewer($content) {
 }
 add_filter('the_content', 'mousumi_display_pdf_viewer');
 
+
+// 7. Create Custom Post Type for Software Showcase
+function mousumi_register_software_showcase_post_type() {
+    $labels = array(
+        'name'                  => 'Software Showcase',
+        'singular_name'         => 'Software Item',
+        'menu_name'             => 'Software Showcase',
+        'add_new'               => 'Add New Software',
+        'add_new_item'          => 'Add New Software',
+        'edit_item'             => 'Edit Software',
+        'new_item'              => 'New Software',
+        'view_item'             => 'View Software',
+        'search_items'          => 'Search Software',
+        'not_found'             => 'No software items found',
+        'not_found_in_trash'    => 'No software items found in trash',
+        'all_items'             => 'All Software',
+    );
+
+    $args = array(
+        'labels'                => $labels,
+        'public'                => true,
+        'publicly_queryable'    => true,
+        'show_ui'               => true,
+        'show_in_menu'          => true,
+        'menu_icon'             => 'dashicons-desktop',
+        'menu_position'         => 27,
+        'supports'              => array('title'),
+        'has_archive'           => false,
+        'rewrite'               => array('slug' => 'software-showcase'),
+        'show_in_rest'          => true,
+    );
+
+    register_post_type('software_showcase', $args);
+}
+add_action('init', 'mousumi_register_software_showcase_post_type');
+
+function mousumi_software_showcase_rewrite_flush() {
+    if (get_option('mousumi_software_showcase_flush_rewrite') !== 'done') {
+        mousumi_register_software_showcase_post_type();
+        flush_rewrite_rules();
+        update_option('mousumi_software_showcase_flush_rewrite', 'done');
+    }
+}
+add_action('after_switch_theme', 'mousumi_software_showcase_rewrite_flush');
+
+function mousumi_software_showcase_meta_box() {
+    add_meta_box(
+        'mousumi_software_showcase_details',
+        'Software Details',
+        'mousumi_software_showcase_meta_box_callback',
+        'software_showcase',
+        'normal',
+        'default'
+    );
+}
+add_action('add_meta_boxes', 'mousumi_software_showcase_meta_box');
+
+function mousumi_software_showcase_meta_box_callback($post) {
+    wp_nonce_field('mousumi_software_showcase_nonce', 'mousumi_software_showcase_nonce');
+    $short_description = get_post_meta($post->ID, '_software_short_description', true);
+    $software_link = get_post_meta($post->ID, '_software_link', true);
+    $icon_id = get_post_meta($post->ID, '_software_icon_id', true);
+    $icon_url = $icon_id ? wp_get_attachment_image_url($icon_id, 'medium') : '';
+    ?>
+    <div class="mousumi-software-showcase-meta">
+        <p>
+            <label for="software_short_description"><strong>Short Description</strong></label><br>
+            <textarea id="software_short_description" name="software_short_description" rows="4" style="width:100%; max-width:100%;"><?php echo esc_textarea($short_description); ?></textarea>
+        </p>
+
+        <p>
+            <label for="software_link"><strong>Software Link</strong></label><br>
+            <input type="url" id="software_link" name="software_link" value="<?php echo esc_attr($software_link); ?>" style="width:100%; max-width:100%;">
+            <span class="description">Enter the external or internal URL for this software item.</span>
+        </p>
+
+        <p>
+            <label><strong>Software Icon</strong></label><br>
+            <input type="hidden" id="software_icon_id" name="software_icon_id" value="<?php echo esc_attr($icon_id); ?>">
+            <input type="text" id="software_icon_url" name="software_icon_url" value="<?php echo esc_url($icon_url); ?>" readonly style="width:100%; margin-bottom:10px;">
+            <button type="button" class="button mousumi-upload-software-icon-btn"><?php echo $icon_url ? 'Change Icon' : 'Upload Icon'; ?></button>
+            <?php if ($icon_url): ?>
+            <button type="button" class="button mousumi-remove-software-icon-btn" style="margin-left:8px;">Remove Icon</button>
+            <?php endif; ?>
+        </p>
+
+        <div id="mousumi-software-icon-preview" style="margin-top:12px;<?php echo $icon_url ? '' : 'display:none;'; ?>">
+            <?php if ($icon_url): ?>
+                <img src="<?php echo esc_url($icon_url); ?>" alt="Software Icon" style="max-width:120px; height:auto; border:1px solid #ddd; padding:4px; background:#fff;">
+            <?php endif; ?>
+        </div>
+
+        <script>
+        jQuery(document).ready(function($) {
+            var mediaUploader;
+            $('.mousumi-upload-software-icon-btn').on('click', function(e) {
+                e.preventDefault();
+                if (mediaUploader) {
+                    mediaUploader.open();
+                    return;
+                }
+                mediaUploader = wp.media({
+                    title: 'Choose Software Icon',
+                    button: {
+                        text: 'Use Icon'
+                    },
+                    multiple: false
+                });
+                mediaUploader.on('select', function() {
+                    var attachment = mediaUploader.state().get('selection').first().toJSON();
+                    $('#software_icon_id').val(attachment.id);
+                    $('#software_icon_url').val(attachment.url);
+                    $('#mousumi-software-icon-preview').show().html('<img src="' + attachment.url + '" alt="Software Icon" style="max-width:120px; height:auto; border:1px solid #ddd; padding:4px; background:#fff;">');
+                    $('.mousumi-upload-software-icon-btn').text('Change Icon');
+                    if ($('.mousumi-remove-software-icon-btn').length === 0) {
+                        $('.mousumi-upload-software-icon-btn').after('<button type="button" class="button mousumi-remove-software-icon-btn" style="margin-left:8px;">Remove Icon</button>');
+                    }
+                });
+                mediaUploader.open();
+            });
+
+            $(document).on('click', '.mousumi-remove-software-icon-btn', function(e) {
+                e.preventDefault();
+                $('#software_icon_id').val('');
+                $('#software_icon_url').val('');
+                $('#mousumi-software-icon-preview').hide().html('');
+                $('.mousumi-upload-software-icon-btn').text('Upload Icon');
+                $(this).remove();
+            });
+        });
+        </script>
+    </div>
+    <?php
+}
+
+function mousumi_save_software_showcase_meta($post_id) {
+    if (!isset($_POST['mousumi_software_showcase_nonce']) || !wp_verify_nonce($_POST['mousumi_software_showcase_nonce'], 'mousumi_software_showcase_nonce')) {
+        return;
+    }
+
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+        return;
+    }
+
+    if (!current_user_can('edit_post', $post_id)) {
+        return;
+    }
+
+    if (isset($_POST['software_short_description'])) {
+        update_post_meta($post_id, '_software_short_description', sanitize_textarea_field($_POST['software_short_description']));
+    }
+
+    if (isset($_POST['software_link'])) {
+        update_post_meta($post_id, '_software_link', esc_url_raw($_POST['software_link']));
+    }
+
+    if (isset($_POST['software_icon_id']) && $_POST['software_icon_id'] !== '') {
+        update_post_meta($post_id, '_software_icon_id', intval($_POST['software_icon_id']));
+    } else {
+        delete_post_meta($post_id, '_software_icon_id');
+    }
+}
+add_action('save_post_software_showcase', 'mousumi_save_software_showcase_meta');
+
+function mousumi_software_showcase_shortcode($atts) {
+    $atts = shortcode_atts(array(
+        'count' => 6,
+        'title' => 'Our Software Showcase',
+    ), $atts, 'mousumi_software_showcase');
+
+    $software_query = new WP_Query(array(
+        'post_type'      => 'software_showcase',
+        'posts_per_page' => intval($atts['count']),
+        'post_status'    => 'publish',
+        'orderby'        => 'date',
+        'order'          => 'DESC',
+    ));
+
+    if (!$software_query->have_posts()) {
+        wp_reset_postdata();
+        return '';
+    }
+
+    ob_start();
+    ?>
+    <section class="mousumi-software-showcase-section">
+        <div class="mousumi-software-showcase-header">
+            <h2><?php echo esc_html($atts['title']); ?></h2>
+        </div>
+
+        <div class="mousumi-software-showcase-grid">
+            <?php while ($software_query->have_posts()) : $software_query->the_post();
+                $short_description = get_post_meta(get_the_ID(), '_software_short_description', true);
+                $software_link = get_post_meta(get_the_ID(), '_software_link', true);
+                $icon_id = get_post_meta(get_the_ID(), '_software_icon_id', true);
+                $icon_url = $icon_id ? wp_get_attachment_image_url($icon_id, 'medium') : '';
+                $item_link = $software_link ? esc_url($software_link) : get_permalink();
+            ?>
+            <article class="mousumi-software-card">
+                <div class="mousumi-software-card-icon">
+                    <?php if ($icon_url) : ?>
+                        <img src="<?php echo esc_url($icon_url); ?>" alt="<?php echo esc_attr(get_the_title()); ?> Icon">
+                    <?php else : ?>
+                        <span class="mousumi-software-card-icon-placeholder">S</span>
+                    <?php endif; ?>
+                </div>
+                <div class="mousumi-software-card-body">
+                    <h3 class="mousumi-software-card-title">
+                        <a href="<?php echo esc_url($item_link); ?>" <?php echo $software_link ? 'target="_blank" rel="noopener"' : ''; ?>><?php echo esc_html(get_the_title()); ?></a>
+                    </h3>
+                    <p class="mousumi-software-card-description"><?php echo esc_html($short_description); ?></p>
+                </div>
+                <?php if ($item_link) : ?>
+                <div class="mousumi-software-card-footer">
+                    <a href="<?php echo esc_url($item_link); ?>" class="mousumi-software-card-button" <?php echo $software_link ? 'target="_blank" rel="noopener"' : ''; ?>>View Software</a>
+                </div>
+                <?php endif; ?>
+            </article>
+            <?php endwhile; ?>
+        </div>
+
+        <style>
+            .mousumi-software-showcase-section {
+                padding: 50px 20px;
+                background: #f9fafb;
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            }
+            .mousumi-software-showcase-header h2 {
+                font-size: 2rem;
+                margin-bottom: 30px;
+                color: #111827;
+                text-align: center;
+            }
+            .mousumi-software-showcase-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+                gap: 24px;
+                align-items: stretch;
+            }
+            .mousumi-software-card {
+                background: #ffffff;
+                border: 1px solid #e5e7eb;
+                border-radius: 24px;
+                padding: 28px;
+                box-shadow: 0 14px 50px rgba(15, 23, 42, 0.08);
+                display: flex;
+                flex-direction: column;
+                min-height: 100%;
+                transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+            }
+            .mousumi-software-card:hover {
+                transform: translateY(-4px);
+                border-color: #d1d5db;
+                box-shadow: 0 22px 60px rgba(15, 23, 42, 0.12);
+            }
+            .mousumi-software-card-icon {
+                width: 72px;
+                height: 72px;
+                margin-bottom: 20px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 20px;
+                background: #eef2ff;
+                overflow: hidden;
+            }
+            .mousumi-software-card-icon img {
+                max-width: 100%;
+                max-height: 100%;
+                object-fit: contain;
+            }
+            .mousumi-software-card-icon-placeholder {
+                font-size: 1.75rem;
+                color: #4f46e5;
+                font-weight: 700;
+            }
+            .mousumi-software-card-title {
+                font-size: 1.25rem;
+                margin: 0 0 12px;
+                line-height: 1.3;
+            }
+            .mousumi-software-card-title a {
+                color: #111827;
+                text-decoration: none;
+            }
+            .mousumi-software-card-title a:hover {
+                color: #4f46e5;
+            }
+            .mousumi-software-card-description {
+                color: #4b5563;
+                font-size: 0.96rem;
+                line-height: 1.75;
+                margin: 0 0 22px;
+                flex-grow: 1;
+            }
+            .mousumi-software-card-footer {
+                margin-top: auto;
+            }
+            .mousumi-software-card-button {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                padding: 12px 18px;
+                border-radius: 999px;
+                background: #4f46e5;
+                color: #ffffff;
+                text-decoration: none;
+                font-weight: 600;
+                transition: background .25s ease;
+            }
+            .mousumi-software-card-button:hover {
+                background: #4338ca;
+            }
+        </style>
+    </section>
+    <?php
+
+    wp_reset_postdata();
+    return ob_get_clean();
+}
+add_shortcode('mousumi_software_showcase', 'mousumi_software_showcase_shortcode');
 
 /**
  * Gallery Custom Post Type - Admin এ Gallery মেনু ও আপডেটের জন্য
